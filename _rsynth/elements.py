@@ -888,11 +888,11 @@ ELEMENTS = {
         InterpParam(0.0, 100.0, 0, 0, 18),
         InterpParam(0.0, 100.0, 0, 0, 18),
         InterpParam(0.0, 100.0, 0, 0, 18),
-        InterpParam(42.0, 50.0, 0, 0, 18),
+        InterpParam(36.0, 50.0, 0, 0, 18),
         InterpParam(0.0, 50.0, 0, 0, 18),
         InterpParam(0.0, 50.0, 0, 0, 18),
         InterpParam(6.0, 50.0, 0, 0, 18),
-        InterpParam(54.0, 50.0, 0, 0, 18)
+        InterpParam(48.0, 50.0, 0, 0, 18)
         ]
     ),
     "V": Element(
@@ -950,7 +950,7 @@ ELEMENTS = {
         InterpParam(0.0, 50.0, 0, 0, 18),
         InterpParam(0.0, 50.0, 0, 0, 18),
         InterpParam(34.0, 50.0, 0, 0, 18),
-        InterpParam(60.0, 50.0, 0, 0, 18)
+        InterpParam(54.0, 50.0, 0, 0, 18)
         ]
     ),
     "DH": Element(
@@ -1001,14 +1001,14 @@ ELEMENTS = {
         InterpParam(0.0, 100.0, 0, 0, 18),
         InterpParam(25.5, 100.0, 0, 0, 18),
         InterpParam(17.6, 100.0, 0, 0, 18),
-        InterpParam(26.2, 100.0, 0, 0, 18),
+        InterpParam(22.0, 100.0, 0, 0, 18),
         InterpParam(0.0, 100.0, 0, 0, 18),
         InterpParam(0.0, 100.0, 0, 0, 18),
         InterpParam(0.0, 100.0, 0, 0, 18),
         InterpParam(0.0, 50.0, 0, 0, 18),
         InterpParam(0.0, 50.0, 0, 0, 18),
         InterpParam(6.0, 50.0, 0, 0, 18),
-        InterpParam(60.0, 50.0, 0, 0, 18)
+        InterpParam(54.0, 50.0, 0, 0, 18)
         ]
     ),
     "Z": Element(
@@ -1030,14 +1030,14 @@ ELEMENTS = {
         InterpParam(0.0, 100.0, 0, 0, 20),
         InterpParam(22.0, 100.0, 0, 0, 20),
         InterpParam(14.1, 100.0, 0, 0, 20),
-        InterpParam(22.8, 100.0, 0, 0, 20),
+        InterpParam(18.8, 100.0, 0, 0, 20),
         InterpParam(0.0, 100.0, 0, 0, 20),
         InterpParam(0.0, 100.0, 0, 0, 20),
         InterpParam(0.0, 100.0, 0, 0, 20),
         InterpParam(40.0, 50.0, 0, 0, 20),
         InterpParam(54.0, 50.0, 0, 0, 20),
         InterpParam(0.0, 50.0, 0, 0, 20),
-        InterpParam(60.0, 50.0, 0, 0, 20)
+        InterpParam(54.0, 50.0, 0, 0, 20)
         ]
     ),
     "CH": Element(
@@ -1066,7 +1066,7 @@ ELEMENTS = {
         InterpParam(0.0, 50.0, 0, 0, 18),
         InterpParam(0.0, 50.0, 0, 0, 18),
         InterpParam(34.0, 50.0, 0, 0, 18),
-        InterpParam(60.0, 50.0, 0, 0, 18)
+        InterpParam(54.0, 50.0, 0, 0, 18)
         ]
     ),
     "SH": Element(
@@ -1095,7 +1095,7 @@ ELEMENTS = {
         InterpParam(0.0, 50.0, 0, 0, 18),
         InterpParam(0.0, 50.0, 0, 0, 18),
         InterpParam(34.0, 50.0, 0, 0, 18),
-        InterpParam(60.0, 50.0, 0, 0, 18)
+        InterpParam(54.0, 50.0, 0, 0, 18)
         ]
     ),
     "ZH": Element(

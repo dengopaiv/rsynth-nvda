@@ -16,6 +16,12 @@ import random
 from dataclasses import dataclass, field
 from typing import List, Optional, Callable
 
+try:
+    from ._klatt_c import _KlattCSynth
+    _HAS_C_EXTENSION = True
+except ImportError:
+    _HAS_C_EXTENSION = False
+
 PI = math.pi
 
 # Natural voice samples from Praat's klatt.cpp - LF model waveform
@@ -110,9 +116,13 @@ def set_resonator_coeffs(sample_rate: int, freq: float, bandwidth: float,
             freq = (sample_rate / 2 + low) / 2
             bandwidth = freq - low
 
+        # Pre-warp frequency to compensate for bilinear transform shift.
+        # At 16 kHz: fixes ~7% error at F3, ~14% at F4. Matches C extension.
+        freq_warped = (sample_rate / PI) * math.tan(PI * freq / sample_rate)
+
         r = math.exp(minus_pi_t * bandwidth)
         c = -(r * r)
-        b = r * math.cos(two_pi_t * freq) * 2.0
+        b = r * math.cos(two_pi_t * freq_warped) * 2.0
         a = 1.0 - b - c
     else:
         # Beyond Nyquist - make it a no-op
@@ -239,6 +249,8 @@ class KlattSynth:
         # Attack ramp for voiceless sounds (prevents "h" burst)
         self._noise_ramp_samples = 0  # Counter for ramp-up
         self._noise_ramp_length = 80  # ~5ms at 16kHz (smooth attack)
+        self._voice_ramp_samples = 0
+        self._voice_ramp_length = 80
         self._voiceless_started = False  # Track if we've started voiceless (for cold start)
 
         # Random number generator state
@@ -297,6 +309,37 @@ class KlattSynth:
 
         # Track voicing state for transition detection (resonator reset)
         self._was_voiced = False
+
+        # C extension acceleration
+        self._c_synth = None
+        if _HAS_C_EXTENSION:
+            self._c_synth = _KlattCSynth(
+                sample_rate, self.samples_per_frame,
+                [float(x) for x in NATURAL_SAMPLES]
+            )
+            self._sync_to_c()
+
+    def _sync_to_c(self):
+        """Push current speaker and voice params to C extension."""
+        if self._c_synth is None:
+            return
+        spk = self.speaker
+        self._c_synth.set_speaker(
+            spk.F0Hz, spk.Gain0,
+            spk.F4hz, spk.B4hz,
+            spk.F5hz, spk.B5hz,
+            spk.F6hz, spk.B6hz,
+            spk.FNPhz, spk.BNhz,
+            spk.B4phz, spk.B5phz, spk.B6phz,
+            spk.F1_offset, spk.F1_scale,
+            spk.F2_offset, spk.F2_scale,
+            spk.F3_offset, spk.F3_scale,
+        )
+        self._c_synth.set_voice_params(
+            self.jitter, self.shimmer,
+            self.flutter, self.voice_source,
+            self.smooth, self.speed,
+        )
 
     def _set_cascade_resonators(self, interpolate: bool = False):
         """Set up cascade path resonators based on current parameters.
@@ -404,6 +447,17 @@ class KlattSynth:
             noise += nrand
         return noise / 2
 
+    @staticmethod
+    def _polyblep(t: float, dt: float) -> float:
+        """PolyBLEP correction for waveform discontinuities."""
+        if t < dt:
+            tn = t / dt
+            return tn + tn - tn * tn - 1.0
+        elif t > 1.0 - dt:
+            tn = (t - 1.0) / dt
+            return tn * tn + tn + tn + 1.0
+        return 0.0
+
     def _gen_voice(self, noise: float) -> float:
         """Generate voice waveform at 4x sample rate."""
         voice = 0.0
@@ -433,6 +487,12 @@ class KlattSynth:
 
                 # Scale to match impulsive source amplitude
                 voice *= (amp / 2500.0)
+
+                # PolyBLEP at glottal closure (table wraparound)
+                if self.T0 > 0:
+                    dt = 1.0 / self.T0
+                    blep = self._polyblep(alpha, dt)
+                    voice += blep * (amp / 2500.0) * 300.0
             else:
                 # Default: impulsive source (original RSynth)
                 # Voice source shape: linear ramp for 1/3, parabola for 2/3
@@ -442,6 +502,12 @@ class KlattSynth:
                     voice = 3 * amp * alpha
                 else:
                     voice = amp * ((9 * alpha - 12) * alpha + 3)
+
+                # PolyBLEP at glottal closure (parabola→ramp discontinuity)
+                if self.T0 > 0:
+                    dt = 1.0 / self.T0
+                    blep = self._polyblep(alpha, dt)
+                    voice += blep * amp
 
             self.nper += 1
 
@@ -477,24 +543,27 @@ class KlattSynth:
         Gain0 = spk.Gain0 - 3
 
         # Parallel resonators with gain (apply same F2/F3 offset/scale as cascade)
+        # Use set_target() for smooth interpolation to avoid coefficient jumps
+        steps = self.samples_per_frame
+
         f2_adj = ep[Param.f2] * spk.F2_scale + spk.F2_offset
         f2_adj = max(700, min(2500, f2_adj))
         a, b, c = set_resonator_coeffs(sr, f2_adj, ep[Param.b2], False)
-        self.r2p.a, self.r2p.b, self.r2p.c = a * db_to_linear(ep[Param.a2]), b, c
+        self.r2p.set_target(a * db_to_linear(ep[Param.a2]), b, c, steps)
 
         f3_adj = ep[Param.f3] * spk.F3_scale + spk.F3_offset
         f3_adj = max(1500, min(3500, f3_adj))
         a, b, c = set_resonator_coeffs(sr, f3_adj, ep[Param.b3], False)
-        self.r3p.a, self.r3p.b, self.r3p.c = a * db_to_linear(ep[Param.a3]), b, c
+        self.r3p.set_target(a * db_to_linear(ep[Param.a3]), b, c, steps)
 
         a, b, c = set_resonator_coeffs(sr, spk.F4hz, spk.B4phz, False)
-        self.r4p.a, self.r4p.b, self.r4p.c = a * db_to_linear(ep[Param.a4]), b, c
+        self.r4p.set_target(a * db_to_linear(ep[Param.a4]), b, c, steps)
 
         a, b, c = set_resonator_coeffs(sr, spk.F5hz, spk.B5phz, False)
-        self.r5p.a, self.r5p.b, self.r5p.c = a * db_to_linear(ep[Param.a5]), b, c
+        self.r5p.set_target(a * db_to_linear(ep[Param.a5]), b, c, steps)
 
         a, b, c = set_resonator_coeffs(sr, spk.F6hz, spk.B6phz, False)
-        self.r6p.a, self.r6p.b, self.r6p.c = a * db_to_linear(ep[Param.a6]), b, c
+        self.r6p.set_target(a * db_to_linear(ep[Param.a6]), b, c, steps)
 
         # Amplitudes
         self.amp_bypass = db_to_linear(ep[Param.ab])
@@ -523,6 +592,7 @@ class KlattSynth:
 
         # Parallel path: frication noise through parallel resonators
         # Each parallel resonator processes noise independently and sums
+        # Scale by 0.5 to compensate for additive energy vs cascade attenuation
         parallel = (
             self.r2p.process(noise) +
             self.r3p.process(noise) +
@@ -530,7 +600,7 @@ class KlattSynth:
             self.r5p.process(noise) +
             self.r6p.process(noise) +
             self.amp_bypass * noise
-        )
+        ) * 0.5
 
         # Combine cascade (voiced) and parallel (frication) paths
         voice = voice + parallel
@@ -554,28 +624,38 @@ class KlattSynth:
         Returns:
             List of audio samples for this frame
         """
+        if self._c_synth is not None:
+            return self._c_synth.generate_frame(F0Hz, params)
+
         self.params = params
 
-        # Check for voicing transition
-        # Reset ALL resonators to prevent voiced energy bleeding into voiceless sounds
+        # Check for voicing transition; reset filters only when entering true silence
         is_voiced = params[Param.av] > 0 or params[Param.avc] > 0
+        is_silence = (
+            params[Param.af] <= 0
+            and params[Param.asp] <= 0
+            and params[Param.ab] <= 0
+            and params[Param.a2] <= 0
+            and params[Param.a3] <= 0
+            and params[Param.a4] <= 0
+            and params[Param.a5] <= 0
+            and params[Param.a6] <= 0
+        )
         if not is_voiced:
-            # Voiceless sound - check if we need to reset
-            if self._was_voiced or not self._voiceless_started:
-                # Reset on: voiced→voiceless transition OR cold start with voiceless
+            # Only reset on voiced→silence (or cold-start silence); let filters decay through frication
+            if is_silence and (self._was_voiced or not self._voiceless_started):
                 for r in [self.rnpc, self.rnz, self.r1c, self.r2c, self.r3c,
                           self.r4c, self.r5c, self.rsc, self.rgl,
                           self.r2p, self.r3p, self.r4p, self.r5p, self.r6p, self.rout]:
                     r.reset()
-                # Start noise attack ramp (prevents "h" burst)
                 self._noise_ramp_samples = 0
             self._voiceless_started = True
-            # Zero amplitude variables (normally done in _pitch_sync, but we skip _gen_voice)
             self.amp_av = 0.0
             self.amp_avc = 0.0
             self.amp_turb = 0.0
         else:
-            # Voiced sound - reset the voiceless flag
+            if not self._was_voiced:
+                self._voice_ramp_samples = 0
             self._voiceless_started = False
         self._was_voiced = is_voiced
 
@@ -610,10 +690,12 @@ class KlattSynth:
             if self.nper < self.nopen:
                 noise *= 0.5
 
-            # Apply voicing amplitude with shimmer for naturalness
+            # Apply voicing amplitude with ramp and shimmer
             voice *= self.amp_av
+            if self._voice_ramp_samples < self._voice_ramp_length:
+                voice *= self._voice_ramp_samples / self._voice_ramp_length
+                self._voice_ramp_samples += 1
             if self.shimmer > 0 and self.amp_av > 0:
-                # Shimmer: random amplitude variation makes voice less robotic
                 shimmer_factor = 1.0 + self.shimmer * (random.random() * 2 - 1)
                 voice *= shimmer_factor
 
@@ -640,11 +722,16 @@ class KlattSynth:
             sample = max(-32767, min(32767, sample))
             samples[i] = sample
 
-            # Apply smooth coefficient interpolation for F1, F2, F3
+            # Apply smooth coefficient interpolation for cascade and parallel resonators
             # This creates natural formant transitions between phonemes
             self.r1c.interpolate()
             self.r2c.interpolate()
             self.r3c.interpolate()
+            self.r2p.interpolate()
+            self.r3p.interpolate()
+            self.r4p.interpolate()
+            self.r5p.interpolate()
+            self.r6p.interpolate()
 
             self.ns += 1
 
@@ -689,6 +776,11 @@ class KlattSynth:
 
     def reset(self):
         """Reset synthesizer state."""
+        if self._c_synth is not None:
+            self._c_synth.reset()
+            self._sync_to_c()  # Push updated speaker/voice params to C extension
+            return
+
         self.nper = 0
         self.ns = 0
         self.seed = 5
@@ -696,6 +788,7 @@ class KlattSynth:
         self._sample_pos = 0.0
         self._was_voiced = False
         self._noise_ramp_samples = 0
+        self._voice_ramp_samples = 0
         self._voiceless_started = False
 
         # Reset DC blocker state

@@ -15,6 +15,8 @@ from typing import List, Tuple, Optional
 
 from .cmudict import cmu_lookup, get_cmu_dict
 from .english_rules import apply_rules
+from .phoneme_rules import apply_phoneme_rules
+from .espeak_fallback import espeak_lookup
 
 
 # Number word tables for NumeralProcessor
@@ -67,6 +69,20 @@ class NumeralProcessor:
     # Number with commas
     COMMA_NUMBER_PATTERN = re.compile(r'\b(\d{1,3}(?:,\d{3})+)\b')
 
+    # Decade plurals (90s, 80s, etc.)
+    DECADE_PATTERN = re.compile(r'\b([1-9])0s\b', re.IGNORECASE)
+    DECADE_WORDS = {
+        '1': 'tens',
+        '2': 'twenties',
+        '3': 'thirties',
+        '4': 'forties',
+        '5': 'fifties',
+        '6': 'sixties',
+        '7': 'seventies',
+        '8': 'eighties',
+        '9': 'nineties',
+    }
+
     # Plain number
     PLAIN_NUMBER_PATTERN = re.compile(r'\b(\d+)\b')
 
@@ -96,10 +112,13 @@ class NumeralProcessor:
         # 4. Years (with context awareness)
         text = cls._process_years(text)
 
-        # 5. Numbers with commas
+        # 5. Decade plurals (90s, 80s, etc.)
+        text = cls.DECADE_PATTERN.sub(cls._format_decade, text)
+
+        # 6. Numbers with commas
         text = cls.COMMA_NUMBER_PATTERN.sub(lambda m: cls._number_to_words(int(m.group(1).replace(',', ''))), text)
 
-        # 6. Remaining plain numbers
+        # 7. Remaining plain numbers
         text = cls.PLAIN_NUMBER_PATTERN.sub(lambda m: cls._number_to_words(int(m.group(1))), text)
 
         return text
@@ -136,6 +155,12 @@ class NumeralProcessor:
                 result_parts.append(digits)
 
         return ', '.join(result_parts)
+
+    @classmethod
+    def _format_decade(cls, match) -> str:
+        """Format decade plural: 90s -> 'nineties'"""
+        digit = match.group(1)
+        return cls.DECADE_WORDS.get(digit, f"{digit}0s")
 
     @classmethod
     def _format_ordinal(cls, match) -> str:
@@ -210,24 +235,30 @@ class NumeralProcessor:
         elif 2010 <= year <= 2019:
             return f"twenty {ONES[year - 2010]}" if year > 2010 else "twenty ten"
         elif year >= 2020:
-            # 2024 -> "twenty twenty-four"
+            # 2024 -> "twenty twenty-four", 2100 -> "twenty-one hundred"
             first_half = year // 100
             second_half = year % 100
             first_word = cls._two_digit_to_words(first_half)
+            if second_half == 0:
+                return f"{first_word} hundred"
             second_word = cls._two_digit_to_words(second_half)
             return f"{first_word} {second_word}"
         elif 1900 <= year <= 1999:
-            # 1984 -> "nineteen eighty-four"
+            # 1984 -> "nineteen eighty-four", 1900 -> "nineteen hundred"
             first_half = year // 100
             second_half = year % 100
             first_word = cls._two_digit_to_words(first_half)
+            if second_half == 0:
+                return f"{first_word} hundred"
             second_word = cls._two_digit_to_words(second_half)
             return f"{first_word} {second_word}"
         elif 1800 <= year <= 1899:
-            # 1850 -> "eighteen fifty"
+            # 1850 -> "eighteen fifty", 1800 -> "eighteen hundred"
             first_half = year // 100
             second_half = year % 100
             first_word = cls._two_digit_to_words(first_half)
+            if second_half == 0:
+                return f"{first_word} hundred"
             second_word = cls._two_digit_to_words(second_half)
             return f"{first_word} {second_word}"
         else:
@@ -328,12 +359,92 @@ DIGITS = {
 
 # Common abbreviations and special words
 SPECIAL_WORDS = {
+    # Screen readers and accessibility
     'nvda': 'en vi di eI',
+    'jaws': 'dZOz',
+    'orca': 'Ork@',
+
+    # Words with tricky pronunciations (avoid flapping errors)
+    'untitled': "Vn'taIt@ld",
+    'entitled': "In'taIt@ld",
+    'title': "'taIt@l",
+    'titled': "'taIt@ld",
+
+    # Common abbreviations
     'ok': '@U keI',
     'vs': 'v3s@s',
     'etc': 'et set@r@',
     'ie': 'D{t Iz',
     'eg': 'fO Igz{mp@l',
+    'asap': 'eI es eI pi',
+    'fyi': 'fO jO Inf@meIS@n',
+    'btw': 'baI D@ weI',
+    'diy': 'du It jOself',
+    'faq': 'ef eI kju',
+
+    # Tech terms - web
+    'http': 'eItS ti ti pi',
+    'https': 'eItS ti ti pi es',
+    'url': 'ju Ar el',
+    'html': 'eItS ti em el',
+    'css': 'si es es',
+    'xml': 'eks em el',
+    'json': 'dZeIs@n',
+    'ajax': 'eIdZ{ks',
+
+    # Tech terms - programming
+    'api': 'eI pi aI',
+    'gui': 'gu i',
+    'cli': 'si el aI',
+    'ide': 'aI di i',
+    'sdk': 'es di keI',
+    'npm': 'en pi em',
+    'git': 'gIt',
+    'github': 'gIt hVb',
+    'sql': 'sikw@l',
+    'nosql': 'n@U sikw@l',
+
+    # Tech terms - hardware
+    'wifi': 'waI faI',
+    'usb': 'ju es bi',
+    'cpu': 'si pi ju',
+    'gpu': 'dZi pi ju',
+    'ram': 'r{m',
+    'ssd': 'es es di',
+    'hdd': 'eItS di di',
+    'hdmi': 'eItS di em aI',
+    'led': 'el i di',
+    'lcd': 'el si di',
+
+    # Operating systems
+    'ios': 'aI @U es',
+    'macos': 'm{k @U es',
+    'linux': 'lIn@ks',
+    'unix': 'jun@ks',
+    'ubuntu': 'ubuntu',
+    'debian': 'debi@n',
+
+    # File formats
+    'pdf': 'pi di ef',
+    'jpg': 'dZeI peg',
+    'jpeg': 'dZeI peg',
+    'png': 'pIN',
+    'gif': 'dZIf',
+    'mp3': 'em pi Tri',
+    'mp4': 'em pi fO',
+    'wav': 'wQv',
+    'zip': 'zIp',
+    'exe': 'eks',
+    'dll': 'di el el',
+
+    # Common tech companies/products
+    'google': 'gug@l',
+    'microsoft': 'maIkr@sOft',
+    'apple': '{p@l',
+    'amazon': '{m@zQn',
+    'nvidia': 'envIdi@',
+    'amd': 'eI em di',
+    'intel': 'Int@l',
 }
 
 
@@ -378,14 +489,55 @@ def number_to_phonemes(num_str: str) -> str:
     return ' '.join(result)
 
 
+def _single_word_to_phonemes(word: str) -> str:
+    """
+    Convert a single non-hyphenated word to phonemes.
+
+    Lookup order:
+    1. CMU Pronouncing Dictionary
+    2. eSpeak-NG fallback (if available)
+    3. Simple letter-to-sound rules
+
+    After lookup, applies phoneme rewriting rules for natural pronunciation.
+
+    Args:
+        word: Word to convert (lowercase, no hyphens)
+
+    Returns:
+        SAMPA phoneme string
+    """
+    # Try CMU dictionary first (most accurate)
+    cmu_result = cmu_lookup(word)
+    if cmu_result:
+        phonemes = cmu_result
+    else:
+        # Try eSpeak fallback (broader vocabulary)
+        espeak_result = espeak_lookup(word)
+        if espeak_result:
+            phonemes = espeak_result
+        else:
+            # Fall back to letter-to-sound rules
+            phonemes = apply_rules(word)
+
+    # Apply phoneme rewriting rules for more natural pronunciation
+    if phonemes:
+        phonemes = apply_phoneme_rules(phonemes)
+
+    return phonemes
+
+
 def word_to_phonemes(word: str) -> str:
     """
     Convert a single word to phonemes.
 
+    Handles hyphenated words by splitting and processing each part.
+
     Lookup order:
     1. Special words dictionary
-    2. CMU Pronouncing Dictionary
-    3. Simple letter-to-sound rules
+    2. CMU Pronouncing Dictionary (for each word part)
+    3. Simple letter-to-sound rules (fallback)
+
+    After lookup, applies phoneme rewriting rules for natural pronunciation.
 
     Args:
         word: Word to convert (lowercase)
@@ -397,7 +549,7 @@ def word_to_phonemes(word: str) -> str:
     if not word_lower:
         return ''
 
-    # Check special words first
+    # Check special words first (no rules applied - already correct)
     if word_lower in SPECIAL_WORDS:
         return SPECIAL_WORDS[word_lower]
 
@@ -405,13 +557,19 @@ def word_to_phonemes(word: str) -> str:
     if word_lower.isdigit():
         return number_to_phonemes(word_lower)
 
-    # Try CMU dictionary
-    cmu_result = cmu_lookup(word_lower)
-    if cmu_result:
-        return cmu_result
+    # Handle hyphenated words by splitting and processing each part
+    if '-' in word_lower:
+        parts = word_lower.split('-')
+        phoneme_parts = []
+        for part in parts:
+            if part:
+                part_phonemes = _single_word_to_phonemes(part)
+                if part_phonemes:
+                    phoneme_parts.append(part_phonemes)
+        return ' '.join(phoneme_parts)
 
-    # Fall back to letter-to-sound rules
-    return apply_rules(word_lower)
+    # Single word processing
+    return _single_word_to_phonemes(word_lower)
 
 
 def text_to_phonemes(text: str) -> str:

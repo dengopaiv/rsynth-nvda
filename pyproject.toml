@@ -1,0 +1,8 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rsynth"
+version = "2.0.0"
+requires-python = ">=3.11"

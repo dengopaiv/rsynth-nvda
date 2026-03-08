@@ -83,12 +83,12 @@ class CMUDict:
     def _find_dict(self) -> Optional[str]:
         """Find bundled CMU dictionary file."""
         # Handle PyInstaller frozen executables
-        if getattr(sys, 'frozen', False):
+        if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
             # Running as frozen executable - data is in _MEIPASS
             base_dir = sys._MEIPASS
             module_dir = os.path.join(base_dir, '_rsynth')
         else:
-            # Running as script - use __file__ location
+            # Running as script or NVDA addon - use __file__ location
             module_dir = os.path.dirname(os.path.abspath(__file__))
 
         candidates = [

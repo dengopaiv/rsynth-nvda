@@ -29,4 +29,4 @@ __all__ = [
     'text_to_phonemes',
 ]
 
-__version__ = '1.1.0'
+__version__ = '2.0.0'

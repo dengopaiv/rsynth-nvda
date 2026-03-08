@@ -55,6 +55,15 @@ DIGRAPHS = {
     'wr': 'r',  # silent w
     'qu': 'kw',
     'dg': 'dZ',
+    # Additional silent letter combinations
+    'gn': 'n',  # gnat, gnome
+    'ps': 's',  # psychology, psalm
+    'pn': 'n',  # pneumonia
+    'mb': 'm',  # lamb, climb (at end)
+    'bt': 't',  # debt, doubt (silent b)
+    'mn': 'n',  # hymn, autumn
+    'sc': 's',  # scene, science (before e/i)
+    'rh': 'r',  # rhythm, rhyme
 }
 
 # Common vowel combinations
@@ -75,29 +84,65 @@ VOWEL_COMBOS = {
     'au': 'O',
     'aw': 'O',
     'ew': 'ju',
+    # Additional vowel combinations
+    'ue': 'u',   # blue, true
+    'ui': 'u',   # fruit, suit
+    'oe': '@U',  # toe, goes
+    'igh': 'aI', # high, night, sight
+    'eigh': 'eI', # eight, weight
+    'ough': 'O',  # thought, bought (most common)
+    'augh': 'O',  # caught, taught
 }
 
-# Common endings
+# Common endings (sorted by length for proper matching)
 ENDINGS = {
+    # 5+ character endings
+    'ation': 'eIS@n',  # nation, station
+    'ition': 'IS@n',   # condition, position
+    'ition': 'IS@n',   # condition
+    'iance': 'i@ns',   # compliance
+    'ience': 'i@ns',   # patience
+    # 4 character endings
     'tion': 'S@n',
     'sion': 'Z@n',
     'ture': 'tS@',
     'sure': 'Z@',
-    'ous': '@s',
     'ious': 'i@s',
-    'ing': 'IN',
-    'ed': 'd',
-    'es': 'Iz',
-    'er': '@',
-    'est': 'Ist',
-    'ly': 'li',
-    'le': '@l',
-    'al': '@l',
-    'ful': 'fUl',
+    'eous': 'i@s',     # gorgeous
+    'cial': 'S@l',     # special
+    'tial': 'S@l',     # partial
+    'cian': 'S@n',     # musician
     'ness': 'n@s',
     'ment': 'm@nt',
     'able': '@b@l',
     'ible': '@b@l',
+    'less': 'l@s',     # careless
+    'ence': '@ns',     # difference
+    'ance': '@ns',     # distance
+    # 3 character endings
+    'ous': '@s',
+    'ive': 'Iv',       # active
+    'ful': 'fUl',
+    'ing': 'IN',
+    'est': 'Ist',
+    'ism': 'Iz@m',     # capitalism
+    'ist': 'Ist',      # artist
+    'ity': 'Iti',      # city
+    'ify': 'IfaI',     # modify
+    'ize': 'aIz',      # organize
+    'ise': 'aIz',      # (British) organise
+    'ory': '@ri',      # history
+    'ary': '@ri',      # library
+    'ery': '@ri',      # bakery
+    # 2 character endings
+    'ly': 'li',
+    'le': '@l',
+    'al': '@l',
+    'ed': 'd',
+    'es': 'Iz',
+    'er': '@',
+    'or': '@',         # actor
+    'en': '@n',        # broken
 }
 
 
@@ -137,19 +182,24 @@ def apply_rules(word: str) -> str:
         if matched:
             continue
 
+        # Try longer vowel combinations first (4, 3, then 2 chars)
+        for length in (4, 3, 2):
+            if i <= n - length:
+                combo = word[i:i+length]
+                if combo in VOWEL_COMBOS:
+                    result.append(VOWEL_COMBOS[combo])
+                    i += length
+                    matched = True
+                    break
+
+        if matched:
+            continue
+
         # Try digraphs (2-letter combinations)
         if i < n - 1:
             digraph = word[i:i+2]
             if digraph in DIGRAPHS:
                 result.append(DIGRAPHS[digraph])
-                i += 2
-                continue
-
-        # Try vowel combinations
-        if i < n - 1:
-            combo = word[i:i+2]
-            if combo in VOWEL_COMBOS:
-                result.append(VOWEL_COMBOS[combo])
                 i += 2
                 continue
 

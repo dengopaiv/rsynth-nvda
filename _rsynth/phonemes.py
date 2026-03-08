@@ -8,7 +8,13 @@ Original code copyright (c) 1994,2001-2003 Nick Ing-Simmons, LGPL licensed.
 """
 
 from typing import List, Tuple, Optional
-from .elements import ELEMENTS, ELEMENT_LIST, Element, InterpParam
+from .elements import (
+    ELEMENTS,
+    ELEMENT_LIST,
+    Element,
+    InterpParam,
+    get_element_index,
+)
 
 
 def decline_f0(current_f0: float, elapsed_frames: int, f0_default: float) -> float:
@@ -289,13 +295,38 @@ def phonemes_to_elements(phoneme_string: str, speed: float = 1.0,
             # Unknown character, skip it
             i += 1
 
+    # Add a trailing pause so the tail decays cleanly even without punctuation.
+    if result:
+        last_elem = ELEMENT_LIST[result[-1][0]]
+        if last_elem.name not in ("Q", "END"):
+            tail_idx = get_element_index("Q")
+            if tail_idx < 0:
+                tail_idx = get_element_index("END")
+            if tail_idx >= 0:
+                tail_elem = ELEMENT_LIST[tail_idx]
+                tail_dur = int(tail_elem.du * speed)
+                if tail_dur <= 0:
+                    tail_dur = max(1, tail_elem.du)
+                result.append((tail_idx, tail_dur))
+                t += tail_dur
+
     # Add final F0 decline to end of utterance (skip in flat mode)
     if not flat_intonation:
         elapsed = t - last_stress_t
         if elapsed > 0:
             f0_events.append(elapsed)
-            final_f0 = decline_f0(current_f0, elapsed, f0_default)
-            f0_events.append(final_f0)
+            current_f0 = decline_f0(current_f0, elapsed, f0_default)
+            f0_events.append(current_f0)
+            last_stress_t = t
+
+        # Sentence-final intonation: fall for declaratives, rise for questions
+        stripped = phoneme_string.rstrip()
+        if stripped.endswith('.'):
+            f0_events.append(int(10 * speed))
+            f0_events.append(f0_default * 0.8)
+        elif stripped.endswith('?'):
+            f0_events.append(int(10 * speed))
+            f0_events.append(f0_default * 1.2)
 
     if track_word_boundaries:
         return result, f0_events, word_boundaries
@@ -397,7 +428,12 @@ class FrameGenerator:
         if elements:
             first_elem = elem_list[elements[0][0]]
             for j in range(18):
-                self._filter_state[j] = first_elem.params[j].stdy
+                # Initialize amplitude params to zero for clean fade-in;
+                # keep formant frequencies/bandwidths at target
+                if j >= 8:  # a2-a6, ab, av, avc, asp, af
+                    self._filter_state[j] = 0.0
+                else:
+                    self._filter_state[j] = first_elem.params[j].stdy
 
         # Default F0 contour if none provided
         if f0_contour is None or len(f0_contour) < 1:
@@ -470,13 +506,31 @@ class FrameGenerator:
                         curr_elem.params[j].stdy,
                         t, dur
                     )
-                    # Use faster smoothing for voicing to prevent bleed but avoid clicks
-                    # av=14, avc=15 need quick transitions (~3 frames) not instant
-                    if j in (14, 15):
-                        # Fast smoothing: 0.85 decays in 3 frames vs 0.5 in 7 frames
-                        # Scale with speed for consistent proportional smoothing
-                        effective_fast_smooth = 0.85 ** (1.0 / self.speed)
-                        self._filter_state[j] = effective_fast_smooth * val + (1.0 - effective_fast_smooth) * self._filter_state[j]
+                    # Fast smoothing for all amplitude params (indices 8-17)
+                    # to prevent clicks at phoneme boundaries
+                    if j >= 8:
+                        if j in (14, 15):
+                            # Voicing (av, avc): fast decay to zero (~3 frames)
+                            # instead of instant clamp, to avoid truncating
+                            # mid-cycle glottal pulses
+                            if val <= 0.0:
+                                self._filter_state[j] *= 0.3
+                                if self._filter_state[j] < 0.1:
+                                    self._filter_state[j] = 0.0
+                            else:
+                                effective_fast_smooth = 0.85 ** (1.0 / self.speed)
+                                self._filter_state[j] = (
+                                    effective_fast_smooth * val
+                                    + (1.0 - effective_fast_smooth) * self._filter_state[j]
+                                )
+                        else:
+                            # Frication/aspiration amplitudes (a2-a6, ab, asp, af):
+                            # fast smoothing to match voicing responsiveness
+                            effective_fast_smooth = 0.85 ** (1.0 / self.speed)
+                            self._filter_state[j] = (
+                                effective_fast_smooth * val
+                                + (1.0 - effective_fast_smooth) * self._filter_state[j]
+                            )
                         params.append(self._filter_state[j])
                     else:
                         params.append(self._smooth_param(j, val))
@@ -490,7 +544,7 @@ class FrameGenerator:
                 f0_t += 1
 
                 # Advance to next F0 segment when current one completes
-                while f0_t >= f0_dur and f0_idx + 2 < len(f0_contour) - 2:
+                while f0_t >= f0_dur and f0_idx + 2 < len(f0_contour):
                     f0_t = 0
                     f0_idx += 2
                     f0_current = f0_target
