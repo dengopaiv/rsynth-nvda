@@ -25,6 +25,7 @@ them. So verification has two parts:
 | gcc 14.2, `-fsanitize=address,undefined -fno-sanitize-recover=undefined -O1`, leak detection on | WSL | all passed after patch P5 (the first run stopped on the `gen_noise()` shift UBSan reported) |
 | gcc 14.2, -O0, under `valgrind --track-origins=yes --leak-check=full` | WSL | no errors, golden identical |
 | `tests/test_driver.py` against the MSVC DLL | Windows, Python 3.13.15 | all passed |
+| The add-on inside NVDA 2026.3beta5, `tests/nvda_test` harness | Windows, throwaway profile | every step ran, 0 errors; see [05](05-nvda-driver.md) |
 
 That the golden hashes agree between MSVC on Windows and gcc on Linux, at
 -O0 and -O2, says the engine's float arithmetic is reproducible across
@@ -64,9 +65,9 @@ samples, 46 ms at 22 kHz) is.
 
 ## Not yet verified
 
-- **Inside NVDA.** See [05](05-nvda-driver.md). Until `test-addon.ps1`
-  (or a hand install) has been run, the driver is proven against stand-ins
-  only.
+- **Daily use in NVDA.** One scripted run ([05](05-nvda-driver.md)) is
+  not reading with it: navigation, say-all, typing echo and the settings
+  ring by hand are still to be tried.
 - **By ear.** Nobody has listened to this build yet. The golden hashes
   prove it is stable, not that it sounds like `say` did; a listening
   comparison with an autotools `say` built in WSL from the same sources

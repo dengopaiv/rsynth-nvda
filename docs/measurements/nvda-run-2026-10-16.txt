@@ -1,0 +1,402 @@
+# NVDA run 2026-10-16, test-addon.ps1 + tests/nvda_test harness
+# NVDA 2026.3beta5 portable (generated from the installed copy), throwaway profile.
+# Lines from the log: the harness (RSYNTHTEST), the driver, and the ERROR count.
+# Indexes 1-8 are oneCore, before the switch; NVDA was also reading the terminal
+# it found focused, so many indexes belong to that chatter, not to the steps.
+ERROR/CRITICAL lines: 0
+Loaded synthDriver oneCore
+RSYNTHTEST   1.224 index 1 from oneCore
+RSYNTHTEST   1.803 index 2 from oneCore
+RSYNTHTEST   2.163 index 3 from oneCore
+RSYNTHTEST   2.291 index 4 from oneCore
+RSYNTHTEST   2.416 index 5 from oneCore
+RSYNTHTEST   2.542 index 6 from oneCore
+RSYNTHTEST   2.870 index 7 from oneCore
+RSYNTHTEST   3.008 index 8 from oneCore
+RSYNTHTEST   3.041 done from oneCore
+RSynth: rsynth-nvda 3.0.0 (RSynth 2.x by Nick Ing-Simmons)
+Loaded synthDriver rsynth
+RSYNTHTEST   3.109 setSynth ok=True synth=rsynth voice=american variant=22050 rate=50 pitch=50 volume=100
+RSYNTHTEST   3.109 voices=['american', 'british', 'rules'] variants=['22050', '16000', '11025', '8000']
+RSYNTHTEST   5.156 direct: speak with indexes 101, 102
+RSYNTHTEST   6.601 index 101 from rsynth
+RSYNTHTEST   8.073 index 102 from rsynth
+RSYNTHTEST   8.074 done from rsynth
+RSYNTHTEST   8.074 index 10 from rsynth
+RSYNTHTEST   8.074 done from rsynth
+RSYNTHTEST   8.453 index 11 from rsynth
+RSYNTHTEST   8.454 done from rsynth
+RSYNTHTEST   8.469 index 12 from rsynth
+RSYNTHTEST   8.469 done from rsynth
+RSYNTHTEST   8.863 index 13 from rsynth
+RSYNTHTEST   8.863 done from rsynth
+RSYNTHTEST   8.879 index 14 from rsynth
+RSYNTHTEST   8.879 done from rsynth
+RSYNTHTEST   9.228 index 15 from rsynth
+RSYNTHTEST   9.228 done from rsynth
+RSYNTHTEST   9.246 index 16 from rsynth
+RSYNTHTEST   9.246 done from rsynth
+RSYNTHTEST   9.586 index 17 from rsynth
+RSYNTHTEST   9.587 done from rsynth
+RSYNTHTEST   9.603 index 18 from rsynth
+RSYNTHTEST   9.603 done from rsynth
+RSYNTHTEST  10.042 index 19 from rsynth
+RSYNTHTEST  10.042 done from rsynth
+RSYNTHTEST  10.053 index 20 from rsynth
+RSYNTHTEST  10.053 done from rsynth
+RSYNTHTEST  10.497 index 21 from rsynth
+RSYNTHTEST  10.497 done from rsynth
+RSYNTHTEST  10.514 index 22 from rsynth
+RSYNTHTEST  10.515 done from rsynth
+RSYNTHTEST  10.890 index 23 from rsynth
+RSYNTHTEST  10.890 done from rsynth
+RSYNTHTEST  10.895 index 24 from rsynth
+RSYNTHTEST  10.896 done from rsynth
+RSYNTHTEST  10.918 index 25 from rsynth
+RSYNTHTEST  10.918 done from rsynth
+RSYNTHTEST  11.204 manager: speakMessage
+RSYNTHTEST  11.364 index 26 from rsynth
+RSYNTHTEST  11.365 done from rsynth
+RSYNTHTEST  11.383 index 27 from rsynth
+RSYNTHTEST  11.383 done from rsynth
+RSYNTHTEST  11.770 index 28 from rsynth
+RSYNTHTEST  11.771 done from rsynth
+RSYNTHTEST  11.787 index 29 from rsynth
+RSYNTHTEST  11.788 done from rsynth
+RSYNTHTEST  12.145 index 30 from rsynth
+RSYNTHTEST  12.146 done from rsynth
+RSYNTHTEST  12.162 index 31 from rsynth
+RSYNTHTEST  12.163 done from rsynth
+RSYNTHTEST  12.443 index 32 from rsynth
+RSYNTHTEST  12.443 done from rsynth
+RSYNTHTEST  12.461 index 33 from rsynth
+RSYNTHTEST  12.461 done from rsynth
+RSYNTHTEST  12.461 index 34 from rsynth
+RSYNTHTEST  12.462 done from rsynth
+RSYNTHTEST  12.476 index 35 from rsynth
+RSYNTHTEST  12.477 done from rsynth
+RSYNTHTEST  12.821 index 36 from rsynth
+RSYNTHTEST  12.822 done from rsynth
+RSYNTHTEST  16.514 index 37 from rsynth
+RSYNTHTEST  16.514 done from rsynth
+RSYNTHTEST  16.530 index 38 from rsynth
+RSYNTHTEST  16.531 done from rsynth
+RSYNTHTEST  17.001 index 39 from rsynth
+RSYNTHTEST  17.002 done from rsynth
+RSYNTHTEST  17.269 cancel: long text, cancel after 800 ms
+RSYNTHTEST  17.348 index 40 from rsynth
+RSYNTHTEST  17.349 done from rsynth
+RSYNTHTEST  17.349 index 41 from rsynth
+RSYNTHTEST  17.350 done from rsynth
+RSYNTHTEST  17.789 index 42 from rsynth
+RSYNTHTEST  17.789 done from rsynth
+RSYNTHTEST  18.100 cancel: cancelSpeech
+RSYNTHTEST  18.871 index 47 from rsynth
+RSYNTHTEST  18.871 done from rsynth
+RSYNTHTEST  19.323 index 48 from rsynth
+RSYNTHTEST  19.324 done from rsynth
+RSYNTHTEST  19.920 index 49 from rsynth
+RSYNTHTEST  19.920 done from rsynth
+RSYNTHTEST  19.925 index 50 from rsynth
+RSYNTHTEST  19.925 done from rsynth
+RSYNTHTEST  20.282 index 51 from rsynth
+RSYNTHTEST  20.283 done from rsynth
+RSYNTHTEST  20.292 index 52 from rsynth
+RSYNTHTEST  20.293 done from rsynth
+RSYNTHTEST  20.324 after cancel: short text
+RSYNTHTEST  22.277 index 53 from rsynth
+RSYNTHTEST  22.277 done from rsynth
+RSYNTHTEST  22.839 index 54 from rsynth
+RSYNTHTEST  22.840 done from rsynth
+RSYNTHTEST  23.295 index 55 from rsynth
+RSYNTHTEST  23.296 done from rsynth
+RSYNTHTEST  23.859 index 56 from rsynth
+RSYNTHTEST  23.859 done from rsynth
+RSYNTHTEST  23.875 index 57 from rsynth
+RSYNTHTEST  23.876 done from rsynth
+RSYNTHTEST  24.171 index 58 from rsynth
+RSYNTHTEST  24.172 done from rsynth
+RSYNTHTEST  24.183 index 59 from rsynth
+RSYNTHTEST  24.184 done from rsynth
+RSYNTHTEST  24.372 rate=80 pitch=70
+RSYNTHTEST  24.466 index 60 from rsynth
+RSYNTHTEST  24.467 done from rsynth
+RSYNTHTEST  24.483 index 61 from rsynth
+RSYNTHTEST  24.483 done from rsynth
+RSYNTHTEST  24.500 index 62 from rsynth
+RSYNTHTEST  24.501 done from rsynth
+RSYNTHTEST  24.797 index 63 from rsynth
+RSYNTHTEST  24.797 done from rsynth
+RSYNTHTEST  24.937 index 64 from rsynth
+RSYNTHTEST  24.938 done from rsynth
+RSYNTHTEST  25.175 index 65 from rsynth
+RSYNTHTEST  25.175 done from rsynth
+RSYNTHTEST  25.329 index 66 from rsynth
+RSYNTHTEST  25.329 done from rsynth
+RSYNTHTEST  25.333 index 67 from rsynth
+RSYNTHTEST  25.333 done from rsynth
+RSYNTHTEST  25.350 index 68 from rsynth
+RSYNTHTEST  25.350 done from rsynth
+RSYNTHTEST  25.504 index 69 from rsynth
+RSYNTHTEST  25.505 done from rsynth
+RSYNTHTEST  25.723 index 70 from rsynth
+RSYNTHTEST  25.724 done from rsynth
+RSYNTHTEST  25.740 index 71 from rsynth
+RSYNTHTEST  25.740 done from rsynth
+RSYNTHTEST  25.756 index 72 from rsynth
+RSYNTHTEST  25.757 done from rsynth
+RSYNTHTEST  25.895 index 73 from rsynth
+RSYNTHTEST  25.895 done from rsynth
+RSYNTHTEST  28.303 index 74 from rsynth
+RSYNTHTEST  28.303 done from rsynth
+RSYNTHTEST  28.521 index 75 from rsynth
+RSYNTHTEST  28.522 done from rsynth
+RSYNTHTEST  28.755 index 76 from rsynth
+RSYNTHTEST  28.756 done from rsynth
+RSYNTHTEST  28.772 index 77 from rsynth
+RSYNTHTEST  28.772 done from rsynth
+RSYNTHTEST  28.975 index 78 from rsynth
+RSYNTHTEST  28.975 done from rsynth
+RSYNTHTEST  29.162 index 79 from rsynth
+RSYNTHTEST  29.163 done from rsynth
+RSYNTHTEST  29.181 index 80 from rsynth
+RSYNTHTEST  29.181 done from rsynth
+RSYNTHTEST  29.196 index 81 from rsynth
+RSYNTHTEST  29.196 done from rsynth
+RSYNTHTEST  29.401 index 82 from rsynth
+RSYNTHTEST  29.402 done from rsynth
+RSYNTHTEST  29.413 variant=11025
+RSYNTHTEST  29.857 index 83 from rsynth
+RSYNTHTEST  29.858 done from rsynth
+RSYNTHTEST  30.326 index 84 from rsynth
+RSYNTHTEST  30.326 done from rsynth
+RSYNTHTEST  30.719 index 85 from rsynth
+RSYNTHTEST  30.720 done from rsynth
+RSYNTHTEST  30.724 index 86 from rsynth
+RSYNTHTEST  30.725 done from rsynth
+RSYNTHTEST  31.019 index 87 from rsynth
+RSYNTHTEST  31.020 done from rsynth
+RSYNTHTEST  31.473 index 88 from rsynth
+RSYNTHTEST  31.473 done from rsynth
+RSYNTHTEST  33.932 index 89 from rsynth
+RSYNTHTEST  33.932 done from rsynth
+RSYNTHTEST  33.942 index 90 from rsynth
+RSYNTHTEST  33.942 done from rsynth
+RSYNTHTEST  33.957 index 91 from rsynth
+RSYNTHTEST  33.957 done from rsynth
+RSYNTHTEST  33.973 index 92 from rsynth
+RSYNTHTEST  33.973 done from rsynth
+RSYNTHTEST  33.989 index 93 from rsynth
+RSYNTHTEST  33.990 done from rsynth
+RSYNTHTEST  34.263 index 94 from rsynth
+RSYNTHTEST  34.264 done from rsynth
+RSYNTHTEST  34.464 voice=rules variant=22050
+RSYNTHTEST  34.731 index 95 from rsynth
+RSYNTHTEST  34.731 done from rsynth
+RSYNTHTEST  34.950 index 96 from rsynth
+RSYNTHTEST  34.950 done from rsynth
+RSYNTHTEST  34.951 index 97 from rsynth
+RSYNTHTEST  34.951 done from rsynth
+RSYNTHTEST  35.298 index 98 from rsynth
+RSYNTHTEST  35.298 done from rsynth
+RSYNTHTEST  35.674 index 99 from rsynth
+RSYNTHTEST  35.674 done from rsynth
+RSYNTHTEST  38.184 index 100 from rsynth
+RSYNTHTEST  38.185 done from rsynth
+RSYNTHTEST  38.512 index 101 from rsynth
+RSYNTHTEST  38.513 done from rsynth
+RSYNTHTEST  38.528 index 102 from rsynth
+RSYNTHTEST  38.528 done from rsynth
+RSYNTHTEST  38.841 index 103 from rsynth
+RSYNTHTEST  38.842 done from rsynth
+RSYNTHTEST  39.232 index 104 from rsynth
+RSYNTHTEST  39.232 done from rsynth
+RSYNTHTEST  39.510 spelling: speakSpelling NVDA
+RSYNTHTEST  39.531 index 105 from rsynth
+RSYNTHTEST  39.531 done from rsynth
+RSYNTHTEST  39.542 index 106 from rsynth
+RSYNTHTEST  39.542 done from rsynth
+RSYNTHTEST  39.558 index 107 from rsynth
+RSYNTHTEST  39.558 done from rsynth
+RSYNTHTEST  39.951 index 108 from rsynth
+RSYNTHTEST  39.951 done from rsynth
+RSYNTHTEST  40.390 index 109 from rsynth
+RSYNTHTEST  40.391 done from rsynth
+RSYNTHTEST  40.399 index 110 from rsynth
+RSYNTHTEST  40.399 done from rsynth
+RSYNTHTEST  40.422 index 111 from rsynth
+RSYNTHTEST  40.423 done from rsynth
+RSYNTHTEST  40.858 index 112 from rsynth
+RSYNTHTEST  40.859 done from rsynth
+RSYNTHTEST  40.870 index 113 from rsynth
+RSYNTHTEST  40.870 done from rsynth
+RSYNTHTEST  41.201 index 114 from rsynth
+RSYNTHTEST  41.202 done from rsynth
+RSYNTHTEST  41.592 index 115 from rsynth
+RSYNTHTEST  41.592 done from rsynth
+RSYNTHTEST  42.050 index 116 from rsynth
+RSYNTHTEST  42.050 done from rsynth
+RSYNTHTEST  42.067 index 117 from rsynth
+RSYNTHTEST  42.067 done from rsynth
+RSYNTHTEST  42.082 index 118 from rsynth
+RSYNTHTEST  42.083 done from rsynth
+RSYNTHTEST  42.535 index 119 from rsynth
+RSYNTHTEST  42.535 done from rsynth
+RSYNTHTEST  42.833 index 120 from rsynth
+RSYNTHTEST  42.843 done from rsynth
+RSYNTHTEST  42.850 index 121 from rsynth
+RSYNTHTEST  42.851 done from rsynth
+RSYNTHTEST  43.149 index 122 from rsynth
+RSYNTHTEST  43.150 done from rsynth
+RSYNTHTEST  43.166 index 123 from rsynth
+RSYNTHTEST  43.167 done from rsynth
+RSYNTHTEST  43.182 index 124 from rsynth
+RSYNTHTEST  43.183 done from rsynth
+RSYNTHTEST  43.575 index 125 from rsynth
+RSYNTHTEST  43.575 done from rsynth
+RSYNTHTEST  43.811 index 126 from rsynth
+RSYNTHTEST  43.812 done from rsynth
+RSYNTHTEST  44.031 index 127 from rsynth
+RSYNTHTEST  44.031 done from rsynth
+RSYNTHTEST  44.284 index 128 from rsynth
+RSYNTHTEST  44.284 done from rsynth
+RSYNTHTEST  44.521 index 129 from rsynth
+RSYNTHTEST  44.521 done from rsynth
+RSYNTHTEST  44.522 index 130 from rsynth
+RSYNTHTEST  44.522 done from rsynth
+RSYNTHTEST  44.553 final voice=american variant=22050 rate=50 pitch=50
+RSYNTHTEST  44.868 index 131 from rsynth
+RSYNTHTEST  44.869 done from rsynth
+RSYNTHTEST  45.107 END
+RSYNTHTEST  45.324 index 132 from rsynth
+RSYNTHTEST  45.325 done from rsynth
+RSYNTHTEST  45.667 index 133 from rsynth
+RSYNTHTEST  45.667 done from rsynth
+RSYNTHTEST  45.683 index 134 from rsynth
+RSYNTHTEST  45.684 done from rsynth
+RSYNTHTEST  45.684 index 135 from rsynth
+RSYNTHTEST  45.684 done from rsynth
+RSYNTHTEST  45.965 index 136 from rsynth
+RSYNTHTEST  45.965 done from rsynth
+RSYNTHTEST  46.421 index 137 from rsynth
+RSYNTHTEST  46.422 done from rsynth
+RSYNTHTEST  46.437 index 138 from rsynth
+RSYNTHTEST  46.438 done from rsynth
+RSYNTHTEST  46.717 index 139 from rsynth
+RSYNTHTEST  46.717 done from rsynth
+RSYNTHTEST  47.171 index 140 from rsynth
+RSYNTHTEST  47.171 done from rsynth
+RSYNTHTEST  47.438 index 141 from rsynth
+RSYNTHTEST  47.439 done from rsynth
+RSYNTHTEST  47.445 index 142 from rsynth
+RSYNTHTEST  47.445 done from rsynth
+RSYNTHTEST  47.719 index 143 from rsynth
+RSYNTHTEST  47.719 done from rsynth
+RSYNTHTEST  47.733 index 144 from rsynth
+RSYNTHTEST  47.733 done from rsynth
+RSYNTHTEST  48.127 index 145 from rsynth
+RSYNTHTEST  48.128 done from rsynth
+RSYNTHTEST  48.584 index 146 from rsynth
+RSYNTHTEST  48.585 done from rsynth
+RSYNTHTEST  48.981 index 147 from rsynth
+RSYNTHTEST  48.982 done from rsynth
+RSYNTHTEST  49.000 index 148 from rsynth
+RSYNTHTEST  49.001 done from rsynth
+RSYNTHTEST  49.015 index 149 from rsynth
+RSYNTHTEST  49.016 done from rsynth
+RSYNTHTEST  49.404 index 150 from rsynth
+RSYNTHTEST  49.404 done from rsynth
+RSYNTHTEST  49.414 index 151 from rsynth
+RSYNTHTEST  49.414 done from rsynth
+RSYNTHTEST  49.704 index 152 from rsynth
+RSYNTHTEST  49.705 done from rsynth
+RSYNTHTEST  49.719 index 153 from rsynth
+RSYNTHTEST  49.719 done from rsynth
+RSYNTHTEST  50.190 index 154 from rsynth
+RSYNTHTEST  50.191 done from rsynth
+RSYNTHTEST  50.207 index 155 from rsynth
+RSYNTHTEST  50.208 done from rsynth
+RSYNTHTEST  51.729 index 156 from rsynth
+RSYNTHTEST  51.731 done from rsynth
+RSYNTHTEST  51.745 index 157 from rsynth
+RSYNTHTEST  51.746 done from rsynth
+RSYNTHTEST  52.511 index 158 from rsynth
+RSYNTHTEST  52.511 done from rsynth
+RSYNTHTEST  52.527 index 159 from rsynth
+RSYNTHTEST  52.528 done from rsynth
+RSYNTHTEST  52.884 index 160 from rsynth
+RSYNTHTEST  52.884 done from rsynth
+RSYNTHTEST  53.152 index 161 from rsynth
+RSYNTHTEST  53.153 done from rsynth
+RSYNTHTEST  53.452 index 162 from rsynth
+RSYNTHTEST  53.452 done from rsynth
+RSYNTHTEST  53.462 index 163 from rsynth
+RSYNTHTEST  53.463 done from rsynth
+RSYNTHTEST  53.478 index 164 from rsynth
+RSYNTHTEST  53.478 done from rsynth
+RSYNTHTEST  53.874 index 165 from rsynth
+RSYNTHTEST  53.874 done from rsynth
+RSYNTHTEST  54.220 index 166 from rsynth
+RSYNTHTEST  54.220 done from rsynth
+RSYNTHTEST  54.598 index 167 from rsynth
+RSYNTHTEST  54.598 done from rsynth
+RSYNTHTEST  54.616 index 168 from rsynth
+RSYNTHTEST  54.617 done from rsynth
+RSYNTHTEST  54.631 index 169 from rsynth
+RSYNTHTEST  54.632 done from rsynth
+RSYNTHTEST  54.909 index 170 from rsynth
+RSYNTHTEST  54.909 done from rsynth
+RSYNTHTEST  55.283 index 171 from rsynth
+RSYNTHTEST  55.283 done from rsynth
+RSYNTHTEST  55.675 index 172 from rsynth
+RSYNTHTEST  55.676 done from rsynth
+RSYNTHTEST  55.692 index 173 from rsynth
+RSYNTHTEST  55.692 done from rsynth
+RSYNTHTEST  55.708 index 174 from rsynth
+RSYNTHTEST  55.708 done from rsynth
+RSYNTHTEST  55.975 index 175 from rsynth
+RSYNTHTEST  55.975 done from rsynth
+RSYNTHTEST  56.323 index 176 from rsynth
+RSYNTHTEST  56.324 done from rsynth
+RSYNTHTEST  56.338 index 177 from rsynth
+RSYNTHTEST  56.338 done from rsynth
+RSYNTHTEST  56.777 index 178 from rsynth
+RSYNTHTEST  56.777 done from rsynth
+RSYNTHTEST  57.121 index 179 from rsynth
+RSYNTHTEST  57.121 done from rsynth
+RSYNTHTEST  57.138 index 180 from rsynth
+RSYNTHTEST  57.139 done from rsynth
+RSYNTHTEST  57.526 index 181 from rsynth
+RSYNTHTEST  57.527 done from rsynth
+RSYNTHTEST  57.967 index 182 from rsynth
+RSYNTHTEST  57.968 done from rsynth
+RSYNTHTEST  57.975 index 183 from rsynth
+RSYNTHTEST  57.975 done from rsynth
+RSYNTHTEST  57.990 index 184 from rsynth
+RSYNTHTEST  57.991 done from rsynth
+RSYNTHTEST  58.007 index 185 from rsynth
+RSYNTHTEST  58.008 done from rsynth
+RSYNTHTEST  58.296 index 186 from rsynth
+RSYNTHTEST  58.297 done from rsynth
+RSYNTHTEST  58.699 index 187 from rsynth
+RSYNTHTEST  58.700 done from rsynth
+RSYNTHTEST  58.711 index 188 from rsynth
+RSYNTHTEST  58.712 done from rsynth
+RSYNTHTEST  59.262 index 189 from rsynth
+RSYNTHTEST  59.263 done from rsynth
+RSYNTHTEST  59.269 index 190 from rsynth
+RSYNTHTEST  59.269 done from rsynth
+RSYNTHTEST  60.201 index 191 from rsynth
+RSYNTHTEST  60.202 done from rsynth
+RSYNTHTEST  60.209 index 192 from rsynth
+RSYNTHTEST  60.210 done from rsynth
+RSYNTHTEST  61.190 index 193 from rsynth
+RSYNTHTEST  61.191 done from rsynth
+RSYNTHTEST  61.475 index 194 from rsynth
+RSYNTHTEST  61.476 done from rsynth
+RSYNTHTEST  61.490 index 195 from rsynth
+RSYNTHTEST  61.491 done from rsynth
+RSYNTHTEST  61.828 index 196 from rsynth
+RSYNTHTEST  61.828 done from rsynth
+RSYNTHTEST  61.840 index 197 from rsynth
+RSYNTHTEST  61.841 done from rsynth

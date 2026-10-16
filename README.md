@@ -18,7 +18,7 @@ original package, its components and their sources.
 |---|---|
 | Library (`rsynth.dll`) | Working. Builds with MSVC (Windows x64) and gcc (Linux); tests pass on both with identical output, and clean under ASan, UBSan and valgrind. |
 | `rsynth_say` (text → WAV) | Working. |
-| NVDA add-on 3.0.0 | Built and tested against stand-in NVDA modules. **Not yet run inside NVDA**; `lastTestedNVDAVersion` stays at 2026.1 until it is. |
+| NVDA add-on 3.0.0 | Built; tested against stand-in NVDA modules and in one scripted run inside NVDA 2026.3 (every step ran, 0 errors). Not yet used for everyday reading. |
 | GUI | None. Planned as Tawkative's single-engine build over a `tawk_engine.h` implementation, per the tree's conventions. |
 | Listening comparison with the original `say` | Not done. |
 
