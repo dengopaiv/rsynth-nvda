@@ -1,0 +1,1214 @@
+Change 3438 on 2004/10/16 by nick@llama
+
+	New a~ parameters from
+	Franz-Albert VAN DEN BUSSCHE <fa.vdb@free.fr>
+
+Change 3408 on 2004/07/26 by nick@llama
+
+	Allow upper case. Significantly slower though.
+
+Change 3407 on 2004/07/20 by nick@llama
+
+	Avoid hogging all memory
+	Avoid clean deleting everything if arg forgotten
+
+Change 3406 on 2004/07/20 by nick@llama
+
+	Switch phonetic side to use /i:/ for long monophongs.
+	(Element side still needs updating). This allows : marks
+	on vowels of other languages with less impact.
+	EnSane.pm is now UTF-8.
+
+Change 3405 on 2004/07/19 by nick@dromedary
+
+	Add sampa refs
+
+Change 3404 on 2004/07/17 by nick@llama
+
+	MANIFEST tidying for CVS stuff
+
+Change 3403 on 2004/07/17 by nick@llama
+
+	Update nasalized vowels from base vowel now that
+	latter have been tidied.
+
+Change 3396 on 2004/07/11 by nick@llama
+
+	Re-arrange vowels according to theory.
+	Possibly /V/ now sounds odd for RP, otherwise largely
+	harmless to RP as there are 'dip' targets for /a/ etc.
+	Now nasals and rhotic versions need work to match.
+
+Change 3395 on 2004/07/11 by nick@llama
+
+	Feature re-ordering
+
+Change 3394 on 2004/07/11 by nick@llama
+
+	Add display of f2/f3 space
+
+Change 3393 on 2004/07/11 by nick@llama
+
+	Re-instate 'lax' as a vowel feature code
+	Give it a height in Elements.pm
+	Have Elements.pm (re)generate phfeat.h
+
+Change 3392 on 2004/07/11 by nick@llama
+
+	Move dynamic element /#/ (to coin a code) so we can hear
+	what different points sound like.
+
+Change 3391 on 2004/07/11 by nick@llama
+
+	Move /}/ f2 back a bit, add element to use as dynamic one.
+
+Change 3390 on 2004/07/10 by nick@llama
+
+	Sound with vowel diagram (Read only)
+
+Change 3389 on 2004/07/10 by nick@llama
+
+	Add perl API to elements layer of synth
+	 - a bit of a kludge for now.
+
+Change 3388 on 2004/07/10 by nick@llama
+
+	Move primary phtoelm.def to Rsynth subdir
+
+Change 3387 on 2004/07/04 by nick@llama
+
+	Prepare for theory manipulation of f1/f2/f3 of vowels.
+	In particular save Elements.hist with old values
+
+Change 3386 on 2004/07/04 by nick@llama
+
+	Whoops - lost contents
+
+Change 3385 on 2004/07/04 by nick@llama
+
+	Order vowel features
+
+Change 3384 on 2004/07/04 by nick@llama
+
+	UTF-8 for most files.
+
+Change 3375 on 2004/06/30 by nick@llama
+
+	Re-instate ability to prune rules in multi-pass
+	train.
+
+Change 3374 on 2004/06/29 by nick@llama
+
+	Sanitize Elements.def a bit
+	 - Collapse two virtually identical versions of /a/
+	 - Only generate nasals from non-diphthong vowels
+	 - name elements in SAMPA while messing with them
+	Add elmdgm to show vowels + /w/ and /j/ in IPA font.
+	 - suggests some of vowels are off track, or f1/f2 theory
+	   is wrong.
+
+Change 3370 on 2004/06/28 by nick@dromedary
+
+	Add nasals - suspect lengths are wrong
+
+Change 3369 on 2004/06/28 by nick@dromedary
+
+	Unicode slot of Elm_t as uchar * in UTF-8 to
+	allow for multichar like /i:/ or /a~/
+
+Change 3368 on 2004/06/26 by nick@llama
+
+	Reinstate ability to build hybrid lookup
+
+Change 3364 on 2004/06/24 by nick@llama
+
+	Tolerate american phones better.
+
+Change 3363 on 2004/06/24 by nick@llama
+
+	@` needs to come before @ in ph_vowel
+
+Change 3362 on 2004/06/24 by nick@llama
+
+	More special cases to try and get vowels on right
+	graphemes.
+
+Change 3361 on 2004/06/24 by nick@llama
+
+	Tweak probability reporting
+
+Change 3360 on 2004/06/23 by nick@llama
+
+	Flow now using trial
+
+Change 3359 on 2004/06/23 by nick@llama
+
+	Fix -passes code again. Sort lp table.
+
+Change 3358 on 2004/06/23 by nick@llama
+
+	Tinker with r and wh rules for American dictionary
+
+Change 3357 on 2004/06/23 by nick@llama
+
+	Use EnSane module in old guess code
+
+Change 3356 on 2004/06/22 by nick@llama
+
+	More sanity checks and make them a module.
+
+Change 3355 on 2004/06/22 by nick@llama
+
+	More errors in CUVOALD sources
+
+Change 3354 on 2004/06/22 by nick@llama
+
+	Remove dipthongs as phoenemes let phone concat
+	rediscover them.
+
+Change 3353 on 2004/06/22 by nick@llama
+
+	Some split minimization
+
+Change 3352 on 2004/06/21 by nick@llama
+
+	More memory reduction
+	Tidy the "sane" rules a bit".
+
+Change 3351 on 2004/06/20 by nick@llama
+
+	Try and reduce memory.
+
+Change 3350 on 2004/06/20 by nick@llama
+
+	Fix split case in new code.
+	Allow silent vowels after /@l/ etc. (may have been there before).
+
+Change 3349 on 2004/06/20 by nick@llama
+
+	New structured guess and call it train
+
+Change 3348 on 2004/06/20 by nick@llama
+
+	C output from id3 (incomplete)
+
+Change 3347 on 2004/06/20 by nick@llama
+
+	Amount of context a compile time option.
+
+Change 3346 on 2004/06/19 by nick@llama
+
+	Clean up (X-)SAMPA:
+	 - add some more vowels
+	 - use quotemeta in regular expersssions
+	 - remove CUVOALD markup of linking-R
+	 - remove 'R' from arpabet ER
+
+Change 3345 on 2004/06/19 by nick@llama
+
+	Cleanup on re-build
+	Need .std from 1st pass
+
+Change 3344 on 2004/06/19 by nick@llama
+
+	-passes as command line option (rather than -loop)
+
+Change 3343 on 2004/06/19 by nick@llama
+
+	Re-order sane() alphapetically
+
+Change 3342 on 2004/06/19 by nick@llama
+
+	Save correct window (this is entropy change)
+
+Change 3341 on 2004/06/19 by nick@llama
+
+	More tidying, avoid log(2) and re-calc of ph entropy.
+
+Change 3340 on 2004/06/19 by nick@llama
+
+	Re-structure so we can give explanatory comments.
+
+Change 3339 on 2004/06/18 by nick@dromedary
+
+	Make guess behave like new style try so we can compare
+	old style NRL code to new style trained rules.
+
+Change 3338 on 2004/06/17 by nick@llama
+
+	Add/update ancillary scripts
+
+Change 3337 on 2004/06/15 by nick@llama
+
+	sin problem was driving error in try.
+	Small now 93% correct.
+
+Change 3336 on 2004/06/15 by nick@llama
+
+	Avoid outputing vectors from unproven parts of recursion.
+	Repeat vectors for number of words to change weightings.
+	Both versions of id3 giving errors which are odd e.g.
+	'sin' 'sIn' is covered by vector at all times but is output as sn?
+
+Change 3335 on 2004/06/15 by nick@llama
+
+	remove() wasn't removing enough. But nested hashes
+	are expensive.
+
+Change 3334 on 2004/06/15 by nick@llama
+
+	Correcting semantics of '-' '_' '^' '$' and '' in ch/ph
+	Gets small to 88.9%.
+	Good as avoids pain of re-adding more R context
+
+Change 3333 on 2004/06/15 by nick@llama
+
+	Save version with ^$
+
+Change 3332 on 2004/06/15 by nick@llama
+
+	New style working again with more left depth
+	Small 73.7%. fixed takes too much memoory...
+
+Change 3331 on 2004/06/14 by nick@llama
+
+	New data structures ready.
+
+Change 3330 on 2004/06/14 by nick@llama
+
+	Intermediate point with vectors as data
+
+Change 3329 on 2004/06/14 by nick@llama
+
+	Use perltidy on id3
+	Also fix quoting of literals - which now makes perl version BETTER
+	than C version (still a mystery why they differ, but have a clue now).
+	So now small case is 77.6% correct :-)
+
+Change 3328 on 2004/06/13 by nick@llama
+
+	More comments in perl-generated tree
+	Still Not clear why it makes more errors.
+
+Change 3327 on 2004/06/13 by nick@llama
+
+	Try and understand id3
+	 - id3.c simplify to perl only style and some tidyup
+	   still only 74% correct on small.dat
+	 - Fish perl version of id3 out of archive and -w use strict
+	   works again (fast enough on 21st Century machine)
+	 - Produces radically differrt decision tree given same data
+	   as C version which only gets 54% correct.
+
+Change 3326 on 2004/06/13 by nick@llama
+
+	Loose the silly macros
+
+Change 3325 on 2004/06/13 by nick@llama
+
+	Build vectors for id3 trial
+
+Change 3324 on 2004/06/13 by nick@llama
+
+	indent and reduce mingain
+
+Change 3323 on 2004/06/12 by nick@llama
+
+	Fix re-use of entry for ranking on -loop pass
+
+Change 3322 on 2004/06/12 by nick@llama
+
+	Use constant for array indices
+
+Change 3321 on 2004/06/12 by nick@llama
+
+	Tidy options()
+
+Change 3320 on 2004/06/12 by nick@llama
+
+	Save left and right as both char and phone
+
+Change 3319 on 2004/06/11 by nick@llama
+
+	Prune some of the digraphs
+
+Change 3318 on 2004/06/11 by nick@llama
+
+	Loop using @dict array rather than file
+
+Change 3317 on 2004/06/11 by nick@llama
+
+	Regular expressions for phoneme and grapheme and
+	vowel sub-classes of those.
+	Still being too greedy on vowel clusters
+
+Change 3316 on 2004/06/10 by nick@llama
+
+	Tinkering with seed sane() code.
+
+Change 3315 on 2004/06/10 by nick@llama
+
+	Write word list and sane lines.
+
+Change 3314 on 2004/06/09 by nick@llama
+
+	Some command line options to try things
+
+Change 3313 on 2004/06/08 by nick@llama
+
+	Scheme to back-convert ARPAbet of CMU/BEEP to SAMPA
+	Shows both dictionaries are full junk.
+	 - CMU is better of two. Its main snag are lots of Polish/Chinese
+	   proper names, and more (un-tagged of course) abbreviations.
+	   Also a whole raft of McWhatever names.
+	 - BEEP however has lots of "just wrong" entries and
+	   some correct words pronounciations associated with either
+	   unrelated word or it misspelt orthographicaly.
+
+Change 3312 on 2004/06/08 by nick@llama
+
+	Typo E21 for EH2
+
+Change 3311 on 2004/06/08 by nick@llama
+
+	Less conflicts in CMU vs CUVOALD trained rules if
+	ARPAbet AH is SAMPA @
+
+Change 3310 on 2004/06/08 by nick@llama
+
+	Cleanup command line switches for explain foreign
+
+Change 3309 on 2004/06/08 by nick@llama
+
+	More checking
+
+Change 3308 on 2004/06/07 by nick@llama
+
+	Read OALD directly.
+
+Change 3307 on 2004/06/06 by nick@llama
+
+	Config/MANIFEST tinkering
+
+Change 3306 on 2004/06/06 by nick@llama
+
+	New rule building scheme
+
+Change 3297 on 2004/05/29 by nick@llama
+
+	Modernize a bit
+	 - new autoconf
+	 - re-instate -ldb support
+	 - force locale during mkdictdb runs (suspect)
+
+Change 3296 on 2004/05/29 by nick@llama
+
+	New autoconf stuff to test for new ALSA
+
+Change 3282 on 2004/04/18 by nick@llama
+
+	SAMPA-ize OALD phones
+
+Change 3145 on 2004/02/17 by nick@nickwork
+
+	Integrate RedHat stuff
+
+Change 3143 on 2004/02/14 by nick@dromedary
+
+	Must set rate before doing .au file
+
+Change 3126 on 2004/01/15 by nick@llama
+
+	Skip CVS sub-dirs in MANIFEST
+
+Change 3112 on 2004/01/04 by nick@llama
+
+	More README corrections
+
+Change 3110 on 2004/01/04 by nick@llama
+
+	Purge obsolete READMEs, update _the_ README
+
+Change 3109 on 2004/01/04 by nick@llama
+
+	Import beep-1.0.tar.gz from
+	ftp://svr-ftp.eng.cam.ac.uk/pub/comp.speech/dictionaries
+
+Change 3108 on 2004/01/04 by nick@llama
+
+	Import cmudict.0.6 from ftp://ftp.cs.cmu.edu/project/fgdata/dict
+
+Change 3104 on 2004/01/04 by nick@dromedary
+
+	ALSA driver - Warn if sample rate isn't what we asked for,
+	use -A to select a device other than "default"
+
+Change 3103 on 2004/01/04 by nick@dromedary
+
+	Tidy command-line args table
+
+Change 3102 on 2004/01/04 by nick@dromedary
+
+	Cleanup whitespace and add 2004 to copyright years.
+
+Change 3101 on 2004/01/04 by nick@dromedary
+
+	PREREQ_FATAL is a boolean
+
+Change 3096 on 2004/01/02 by nick@llama
+
+	More MANIFEST cleanup
+
+Change 3095 on 2004/01/02 by nick@llama
+
+	MANIFEST and distribution cleanup
+
+Change 3094 on 2003/12/31 by nick@llama
+
+	Add ALSA driver
+
+Change 2931 on 2003/10/09 by nick@llama
+
+	Typo in configure.in
+
+Change 2707 on 2003/07/06 by nick@llama
+
+	SuSE 8.2 and gcc-3.* support
+	Mainly adding -fno-scrict-aliasing and removing -Werrors (for now)
+
+Change 2636 on 2003/01/08 by nick@nickwork
+
+	Some tidy up on RedHat 7.1
+
+Change 2635 on 2003/01/07 by nick@dromedary
+
+	Depends on Audio::Data
+
+Change 2630 on 2003/01/05 by nick@dromedary
+
+	Decouple dict (and hence db routines) from rest of 
+	text-to-phones stuff.
+
+Change 2629 on 2003/01/05 by nick@dromedary
+
+	Restore ability to make CC=g++
+
+Change 2628 on 2003/01/05 by nick@dromedary
+
+	Perl bindings for librsynth.a
+
+Change 2627 on 2003/01/05 by nick@dromedary
+
+	Move Elements.pm under perl Rsynth dir
+
+Change 2626 on 2003/01/04 by nick@dromedary
+
+	Nearly there - restructure once more to make 
+	a usable library at two levels - text and phonetics
+
+Change 2625 on 2003/01/04 by nick@dromedary
+
+	More cleanup of obsolete files.
+
+Change 2624 on 2003/01/04 by nick@bactrian
+
+	   	Typo in ansi-izeing
+
+Change 2623 on 2003/01/04 by nick@dromedary
+
+	Moderernize autoconf stuff
+
+Change 2622 on 2003/01/04 by nick@dromedary
+
+	Cleanup and move things about so distribution
+	isn't full of my junk
+
+Change 2621 on 2003/01/03 by nick@dromedary
+
+	More C++ isms and memory leak fixes.
+
+Change 2620 on 2003/01/03 by nick@dromedary
+
+	More pickyness from build with CC=g++ 
+
+Change 2619 on 2003/01/03 by nick@dromedary
+
+	More API cleanup and portability.
+
+Change 2618 on 2003/01/03 by nick@bactrian
+
+	Correct dependancies
+
+Change 2617 on 2003/01/03 by nick@dromedary
+
+	Lost edit
+
+Change 2616 on 2003/01/03 by nick@dromedary
+
+	Re-structure API to remove most of the globals
+	(Also re-indent.)
+
+Change 2615 on 2003/01/03 by nick@dromedary
+
+	Comments etc. after amp_adj changes.
+
+Change 2614 on 2003/01/03 by nick@dromedary
+
+	Remove sops to K&R C - this is 21st century.
+
+Change 2613 on 2003/01/03 by nick@dromedary
+
+	Move amp adjsutments into Elements.def
+	Convert 'an' to nasal fraction.
+	Loose 'a1' as it never does anything in cascade scheme.
+
+Change 2612 on 2003/01/03 by nick@dromedary
+
+	Collect all dB adjustments of /^a\w+/ paramters into one place.
+
+Change 2611 on 2003/01/02 by nick@dromedary
+
+	[E] and [{] seemed to be swapped.
+	Extraction of F1..F3 from CD is less helpful than expected
+	very hard to get John and Jill's cardinal vowels to look
+	right on tkvdgm.
+
+Change 2610 on 2003/01/02 by nick@dromedary
+
+	Tweak near-equivalence script, avoid $Id$ in phtoelm.def
+
+Change 2609 on 2003/01/02 by nick@dromedary
+
+	Re-arange code to allow dominance on a per-paramter basis
+
+Change 2608 on 2003/01/02 by nick@dromedary
+
+	Avoid special elements for affricates where lengths of normal
+	elements sound acceptable.
+	Loose "QQ" as dummy target element in middle of fricatives.
+	(Prepare QQ to become [?] when we can do per-parameter rank
+	        targeting.)
+	Correct av for closure parts of voiced stops.
+
+Change 2607 on 2003/01/02 by nick@dromedary
+
+	Read new Elements.def format
+
+Change 2606 on 2003/01/02 by nick@dromedary
+
+	Loose dict/ipa strings in favour of one sampa string.
+	Make font slot short and fill with Unicode.
+
+Change 2605 on 2003/01/02 by nick@dromedary
+
+	Re-format without "error in fixed" term now we don't have it.
+
+Change 2604 on 2003/01/02 by nick@dromedary
+
+	Drop 'stdy' slot in element data and use stdy*(1-prop) instead.
+	(Having established that making all data was like that did
+	        not make things worse.)
+
+Change 2603 on 2003/01/01 by nick@dromedary
+
+	Prune the #if 0 code now that new voice scheme and removal
+	of 1st difference seems to work.
+	Also re-instate long mis-understood 'avc' parameter.
+
+Change 2602 on 2003/01/01 by nick@dromedary
+
+	Remove some entries for words written the same but 
+	with different pronounciation when latter cause poblems
+	e.g. we want gin to be [dZIn] not [gIn] (Latter seems wrong)
+	and put to be [pUt] not golfer's [pVt].
+
+Change 2601 on 2002/12/31 by nick@dromedary
+
+	More oddities - none of stops "stop" - weird - added
+	no-source and external duration to KY GY and seems to help
+	(Do same for [bptd]?)
+
+Change 2600 on 2002/12/31 by nick@dromedary
+
+	Velars [kg] had no stimulus on in/out - no wonder they were weak!
+
+Change 2598 on 2002/12/30 by nick@dromedary
+
+	"Restore" naive "f0 decline with stress pulses" approach for 
+	un-assisted text-to-speech. Festival as a front end is
+	of course much better, but this restores stand-alone "prosody"
+	element.
+
+Change 2597 on 2002/12/30 by nick@dromedary
+
+	Gate more messages with -v (verbose) switch
+
+Change 2596 on 2002/12/30 by nick@dromedary
+
+	Festival binding.
+
+Change 2595 on 2002/12/29 by nick@dromedary
+
+	Mend ability to say text files. Reset dumb F0 scheme on ',' etc.
+	as well as end of sentence.
+	Add a mode to use .pho file F0 data but ignore its duration data.
+	Correct pronounciation of 'diphones' in beep (dip-hones indeed!).
+
+Change 2594 on 2002/12/28 by nick@dromedary
+
+	Another try at ms -> num-of-frames interpolation.
+	(Goal is to avoid non-stop elements which vanish as they 
+	 get 0 time.)
+
+Change 2593 on 2002/12/28 by nick@dromedary
+
+	General overhaul of Elements.def removing duplicates
+	and correcting accidentally identical elements.
+
+Change 2591 on 2002/12/28 by nick@dromedary
+
+	"Correct" fix contribution term
+
+Change 2590 on 2002/12/28 by nick@dromedary
+
+	More info in and tidier plot file.
+	Turn on parameter smoothing by default.
+
+Change 2589 on 2002/12/28 by nick@dromedary
+
+	Turn of debug :-(
+
+Change 2588 on 2002/12/28 by nick@dromedary
+
+	Improve mbrola .pho file interpollation:
+	  - allow length reduction for non stops
+	  - invent new attribute 'stl' (stop locus) to mark in/out
+	    elements of stops so only central part is marked as stp
+	    (with above this means in/put can change length).
+	         - Remove specific [A:] etc. entries in phtoelem.def and handle
+	           ':' in phtoelm.c 
+
+Change 2587 on 2002/12/28 by nick@dromedary
+
+	At least attempt all vowels on IPA diagram.
+	(Missing ones F1,F2,F2 from IPA CD.)
+
+Change 2586 on 2002/12/27 by nick@dromedary
+
+	Better error messages for phone translation problems
+
+Change 2585 on 2002/12/27 by nick@dromedary
+
+	Experimental "rsc" resonator to lift centre of spectrum.
+	Inspired by frequent occurance of such in LPC spectra from tkscope.
+
+Change 2584 on 2002/12/27 by nick@dromedary
+
+	Tweak [{] based on tkscope analysis of IPA CD
+
+Change 2581 on 2002/12/27 by nick@dromedary
+
+	Make 1st half of [D] same as 2nd half (looks like an
+	old experiment that got left in.
+
+Change 2580 on 2002/12/27 by nick@dromedary
+
+	Try waiting longer for /dev/dsp
+
+Change 2579 on 2002/12/24 by nick@dromedary
+
+	First pass at adding Copyright and LGPL/GPL notices.
+
+Change 2576 on 2002/12/23 by nick@dromedary
+
+	Switch to piece-wise linear/quadratic voicing waveform.
+
+Change 2575 on 2002/12/23 by nick@dromedary
+
+	Add "Medi" (Welsh woman's christian name) to dict for personal 
+	reasons ;-)
+
+Change 2574 on 2002/12/23 by nick@dromedary
+
+	#if to switch between taking 1st diff of output + lowpass
+	or not doing either (supposed to be equivalent).
+	The non-diff case should make it easier to inject specific 
+	voice waveform.
+
+Change 2573 on 2002/12/23 by nick@dromedary
+
+	Some light tidying
+
+Change 2570 on 2002/12/22 by nick@dromedary
+
+	Update comments, experiment with pitch-sync cascade update
+
+Change 2564 on 2002/12/19 by nick@dromedary
+
+	Tune [N] based on tkscope analysis of "Sounds of IPA" CD
+	 - match f4/f5/f6 to John Well's and then adjust [N]'s fn..f3 
+	          and bandwidths till it looks best.
+
+Change 2563 on 2002/12/19 by nick@dromedary
+
+	Back port the try severl times tweak
+
+Change 2550 on 2002/12/15 by nick@dromedary
+
+	SAMPA corrections for sylabic consonants
+
+Change 2549 on 2002/12/15 by nick@dromedary
+
+	Update/add SAMPA labels for Klatt/MITalk phones
+
+Change 2548 on 2002/12/12 by nick@dromedary
+
+	Add SAMPA IPA Unicode HTML and script for manipulating it.
+
+Change 2547 on 2002/12/10 by nick@dromedary
+
+	Place holders for high central vowels [1] and [}]
+
+Change 2545 on 2002/12/09 by nick@dromedary
+
+	Add x-sampa [4] [K] [?]
+
+Change 2544 on 2002/12/04 by nick@dromedary
+
+	Restore speed from -S 
+	 - some clicks seem to be "rapid" changes in f2 
+	          i.e. go away with more steps as in -S 10 -m 1 
+
+Change 2543 on 2002/12/04 by nick@dromedary
+
+	Adjust global gain to avoid clipping on /Q/
+
+Change 2542 on 2002/12/03 by nick@dromedary
+
+	Add check for f1-f2-f3-f4 spacing and correct problems
+	it showed 
+	 - raise fixed f4 above common f3 in several elements
+	        - move f1/f2 of /A/ to rp values as perl tkvdgm 
+	Update tkvdgm to get data from Elements.def via Elements.pm  
+
+Change 2541 on 2002/11/28 by nick@dromedary
+
+	Clean up tracks of /N/ - still not right (sounds too much like /n/)
+
+Change 2540 on 2002/11/28 by nick@dromedary
+
+	Amplitude investigations - plot avg power 
+	Allow amp/db fudge factor experiments.
+
+Change 2539 on 2002/11/26 by nick@dromedary
+
+	Compute and plot output amplitude.
+
+Change 2538 on 2002/11/25 by nick@dromedary
+
+	Tweak duration code with comment till we are clearer
+	about effects to shortened durations on the parameter
+	interpollation.
+
+Change 2537 on 2002/11/25 by nick@dromedary
+
+	Support say -f whatever.pho 
+	where whatever.pho is a mbrola phone/duration/f0 file.
+	Interpolation between durations in ms and frames is 
+	still a little rough. Also have some issues when specified 
+	duration is less than duration of stops (and maybe some others.)
+
+Change 2536 on 2002/11/24 by nick@dromedary
+
+	end-of-weekend checkin
+
+Change 2535 on 2002/11/24 by nick@dromedary
+
+	Some initial mbrola compatibility tweaks
+
+Change 2528 on 2002/11/19 by nick@dromedary
+
+	Separate voice and parameter data for plotting
+
+Change 2527 on 2002/11/19 by nick@dromedary
+
+	Parameter track plotting
+
+Change 2526 on 2002/11/18 by nick@dromedary
+
+	Start reconciling element params and synth params
+
+Change 2525 on 2002/11/18 by nick@dromedary
+
+	Start of cleanup removing uses of old Klatt code
+
+Change 2524 on 2002/11/17 by nick@dromedary
+
+	Allow study of old synth
+
+Change 2522 on 2002/11/17 by nick@dromedary
+
+	Overhaul voice generation - amplitude and basic sound
+	should now be sample rate independant.
+
+Change 2521 on 2002/11/13 by nick@dromedary
+
+	Update comments, play with sox stats
+
+Change 2519 on 2002/11/08 by nick@dromedary
+
+	Show phone table
+
+Change 2503 on 2002/10/05 by nick@bactrian
+
+	Update to modern linux's math.h
+
+Change 2222 on 2001/05/22 by nick@dromedary
+
+	Clean up f1 too close to f2, f2 to f3 etc.
+
+Change 2213 on 2001/04/30 by nick@dromedary
+
+	Honour gain terms in impulse response output.
+
+Change 2212 on 2001/04/24 by nick@pluto
+
+	Boost af gain (i.e. stop * 0.25),
+	move [k] near its voiced analogue [g] and apply
+	same changes.
+
+Change 2211 on 2001/04/24 by nick@pluto
+
+	[g] edits
+	  - av for in/out is low, av for 'nail' is high.
+	  - silence/burst
+
+Change 2210 on 2001/04/24 by nick@pluto
+
+	Support for getting impluse response from frame parameters.
+
+Change 2209 on 2001/04/24 by nick@pluto
+
+	Apply Klatt f1..f3, b1..b3 to [g]
+
+Change 2208 on 2001/04/24 by nick@pluto
+
+	Mark fmtelm as executable.
+
+Change 2207 on 2001/04/23 by nick@dromedary
+
+	Add element trace.
+
+Change 2206 on 2001/04/23 by nick@dromedary
+
+	Add klatt mapping table. Order parms as perl MITalk book by default.
+
+Change 2205 on 2001/04/23 by nick@dromedary
+
+	Rename variables to match parameter struct slot names.
+
+Change 2204 on 2001/04/20 by nick@bactrian
+
+	Modern nas needs -lXt
+
+Change 2202 on 2001/04/17 by nick@dromedary
+
+	A few systematic adjustments
+
+Change 2201 on 2001/04/17 by nick@dromedary
+
+	Perl version of Elements.def read/write prior to systematic changes.
+
+Change 2200 on 2001/04/17 by nick@dromedary
+
+	Finish off the basic osay/say nsynth/opsynth decoupling.
+
+Change 2199 on 2001/04/17 by nick@dromedary
+
+	Branch Elements
+
+Change 2198 on 2001/04/17 by nick@pluto
+
+	Makefile tweak to allow nasay to build.
+	Make some of checking Linux only.
+
+Change 2197 on 2001/04/16 by nick@dromedary
+
+	More flexible sorting.
+
+Change 2195 on 2001/04/16 by nick@dromedary
+
+	Byteswapping issues in au_file
+
+Change 2194 on 2001/04/16 by nick@dromedary
+
+	Bounds checking.
+	A hack for 8kHz issue, seems skirt of r5c is aliasing ?
+
+Change 2193 on 2001/04/16 by nick@dromedary
+
+	Fix gross C->perl->C mis-re-translation in dB routine.
+
+Change 2191 on 2001/04/15 by nick@dromedary
+
+	Start of new synth.
+
+Change 2190 on 2001/04/15 by nick@dromedary
+
+	Tweak parameters-for-plot dump
+
+Change 2189 on 2001/04/14 by nick@dromedary
+
+	Filter efficency and use new features in tkanal.
+
+Change 2186 on 2001/04/13 by nick@dromedary
+
+	More features for analysing rsynth element tables.
+
+Change 2113 on 2001/01/27 by nick@dromedary
+
+	Work better on modern linux (SuSE6.4)
+
+Change 1536 on 1999/11/27 by nick@bactrian_nt
+
+	Win32 fixes
+
+Change 1496 on 1999/11/09 by nick@bactrian
+
+	Cleanup alignment generation process
+
+Change 1481 on 1999/09/27 by nick@pluto
+
+	Remove near duplicate file
+
+Change 1480 on 1999/09/27 by nick@pluto
+
+	Inherit minor tweak on work version of txt710.dat
+
+Change 1478 on 1999/09/26 by nick@bactrian
+
+	Configure searches /usr/local on linux where gcc suggests /usr
+	as prefix.
+	Bug fix in db API.
+
+Change 1476 on 1999/09/24 by nick@bactrian
+
+	Builds to use /dev/dspW (16 bit) under OSS 
+
+Change 1475 on 1999/09/22 by nick@bactrian
+
+	Correct gdbm abstraction
+
+Change 1474 on 1999/09/22 by nick@bactrian
+
+	Update autoconf versions, config.guess etc.
+
+Change 1455 on 1999/09/02 by nick@bactrian
+
+	On-the-road Monterey/San Jose/Dallas changes
+
+Change 1316 on 1999/05/14 by nick@ni-s
+
+	Update manifest 
+
+Change 1226 on 1999/03/12 by nick@pluto
+
+	Do not skip source for of Makefile, config.h etc.
+
+Change 1224 on 1999/03/11 by nick@pluto
+
+	MANIFEST stuff
+
+Change 1215 on 1999/02/20 by nick@camel
+
+	Fixup for Win32
+
+Change 1214 on 1999/02/20 by nick@ni-s
+
+	Add Makefile
+
+Change 1213 on 1999/02/20 by nick@ni-s
+
+	Add "align" stuff
+
+Change 1205 on 1999/01/23 by nick@camel
+
+	Update for VC++6.0
+
+Change 1204 on 1999/01/23 by nick@camel
+
+	Add VC++ package
+
+Change 898 on 1998/06/02 by nick@ni-s
+
+	F/B splitting of text-only trie works
+
+Change 895 on 1998/06/01 by nick@ni-s
+
+	Re-start from degenerate case (with bugs...)
+
+Change 893 on 1998/05/31 by nick@ni-s
+
+	Bad splits break re-finding
+
+Change 892 on 1998/05/30 by nick@ni-s
+
+	Don't match if cannot split both word and phon
+
+Change 891 on 1998/05/30 by nick@ni-s
+
+	Basic splitting working, problem with silly partition on 
+	Dutchmen/Dutchman 
+
+Change 890 on 1998/05/30 by nick@ni-s
+
+	Separate functions for forward/backward insert
+
+Change 889 on 1998/05/30 by nick@ni-s
+
+	Split functions
+
+Change 888 on 1998/05/30 by nick@ni-s
+
+	Dual disjoint trees
+
+Change 887 on 1998/05/29 by nick@pluto
+
+	Fridays changes - try stack of nodes
+
+Change 886 on 1998/05/28 by nick@pluto
+
+	End of Thur - backward match stuff
+
+Change 885 on 1998/05/28 by nick@pluto
+
+	After re-structure to allow guess/build
+
+Change 884 on 1998/05/28 by nick@pluto
+
+	End of Wednesday
+
+Change 883 on 1998/05/26 by nick@ni-s
+
+	dtree seems to build
+
+Change 882 on 1998/05/26 by nick@ni-s
+
+	Missed file
+
+Change 881 on 1998/05/26 by nick@pluto
+
+	Add autoconf input file, remove Makefile as it is built
+
+Change 880 on 1998/05/26 by nick@pluto
+
+	Support db as well as gdbm, update to latest autoconf
+
+Change 879 on 1998/05/25 by nick@ni-s
+
+	Pre s-rule messing
+
+Change 878 on 1998/05/25 by nick@ni-s
+
+	Added consonat rules as far as 's' from LPD side-bars
+
+Change 877 on 1998/05/25 by nick@ni-s
+
+	Re-structure for stand-alone guess for debug
+
+Change 876 on 1998/05/25 by nick@ni-s
+
+	Snapshot more rule changes
+
+Change 875 on 1998/05/25 by nick@ni-s
+
+	Switched text.c rules to lower case
+
+Change 874 on 1998/05/25 by nick@ni-s
+
+	Pre-downcase
+
+Change 873 on 1998/05/24 by nick@ni-s
+
+	More rule tweaks
+
+Change 872 on 1998/05/24 by nick@ni-s
+
+	1st round of rule-fixups by cross check with CUVOALD
+
+Change 870 on 1998/05/23 by nick@ni-s
+
+	Open as ktext
+
+Change 869 on 1998/05/23 by nick@ni-s
+
+	Add integer version of synth
+
+Change 868 on 1998/05/23 by nick@ni-s
+
+	Wilbur's pitch floor tweak.
+
+Change 867 on 1998/05/23 by nick@camel
+
+	Builds under mingw32
+
+Change 866 on 1998/05/23 by nick@camel
+
+	Works on Win32 (watch the volume...)
+
+Change 865 on 1998/05/23 by nick@camel
+
+	Links under borland
+
+Change 864 on 1998/05/23 by nick@camel
+
+	Gross fixup
+
+Change 863 on 1998/05/23 by nick@camel
+
+	Win32-side fixup
+
+Change 861 on 1998/05/23 by nick@ni-s
+
+	Raw timidity win32 stuff
+
+Change 860 on 1998/05/23 by nick@ni-s
+
+	gcc 2.8 fussyness
+
+Change 858 on 1998/05/23 by nick@ni-s
+
+	Import /home/nick/speak/rsynth
+
+Change 857 on 1998/05/23 by nick@ni-s
+
+	Import /home/nick/speak/rsynth-2.0
+
+Change 856 on 1998/05/23 by nick@ni-s
+
+	Import /tmp/rsynth
+
+Change 855 on 1998/05/23 by nick@ni-s
+
+	Version 1.99
+
+Change 854 on 1998/05/23 by nick@ni-s
+
+	"ntalk" May  7  1994
+
+Change 853 on 1998/05/23 by nick@ni-s
+
+	Version c. 'Feb 24  1994' rsynth.tar.Z
+
+Change 852 on 1998/05/23 by nick@ni-s
+
+	Version "rsynth_cuvolad.tar.gz"
+
+Change 851 on 1998/05/23 by nick@ni-s
+
+	Version released as 'nsynth.tar.gz'
+
+Change 850 on 1998/05/23 by nick@ni-s
+
+	Original 'synth.tar.gz'
+

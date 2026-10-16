@@ -1,29 +1,32 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
+.*.swp
 
-# Build artifacts
-build/
-dist/
-*.spec
-*.egg-info/
+*.o
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
+aclocal.m4
+autom4te.cache/
+config.h.in~
+config.h.in
 
-# Claude Code
-.claude/
+configure
+config.log
+config.status
+config.guess
+config.sub
+config.h
 
-# Windows
-nul
-Thumbs.db
+hplay.c
+Makefile.in
+Makefile
 
-# Virtual environments
-venv/
-.venv/
-env/
+compile
+depcomp
+install-sh
+missing
+stamp-h1
+
+.deps/
+
+Rsynth/librsynth.a
+say
+dlookup
+mkdictdb
