@@ -60,7 +60,16 @@ The oldest commits are Nick Ing-Simmons' own import from Perforce
 is Nick Ing-Simmons' and is kept as it was; this project's README is
 `README.md`. Licences and credits: [../NOTICE.md](../NOTICE.md).
 
-## Nothing was pushed
+## Pushed 2026-10-16
 
-All of this is local. `rsynth-nvda` is a public repository; pushing
-`master`, `native` or `python-port` is the owner's decision.
+At the owner's request, `master` (`1bb9e46..8e403fc`: the restore, the
+native library and add-on, the NVDA test, this cleanup note and the GUI)
+and `python-port` were pushed to `dengopaiv/rsynth-nvda`, which was public
+already. Before pushing, the five commits were checked for binaries. Git
+counted none, and there are no DLLs, executables, add-on zips or ROMs
+among them. The largest file is the CMU dictionary (3.6 MB of text, BSD
+licence, carried with its `LICENSE`).
+
+`native` and `native-gui`, the local working branches that were
+fast-forwarded into `master`, were not pushed. `origin/main` and
+`origin/addon` were left as they were.
