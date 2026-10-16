@@ -377,9 +377,19 @@ gen_noise(rsynth_t * rsynth)
 	/* Low have 31bits of random we want 14 MS bits as a signed value */
 	/* Shift top bits of seed up to top of long then back down to LS 14 bits */
 	/* Assumes 8 bits per sizeof unit i.e. a "byte" */
+#ifdef RSYNTH_LIBRARY
+	/* rsynth-nvda P5: the shift below is undefined behaviour where long
+	   is 64 bits (it shifts into the sign bit). This takes the same top
+	   14 bits of the 32-bit seed and sign-extends them by arithmetic
+	   alone; the values are identical on every platform. */
+	nrand = (long) ((PVT(seed) & 0xFFFFFFFFUL) >> 18);
+	if (nrand >= 8192)
+	    nrand -= 16384;
+#else
 	nrand =
 	    (((long) PVT(seed)) << (8 * sizeof(long) -
 				    32)) >> (8 * sizeof(long) - 14);
+#endif
 	noise += nrand;
     }
     /* now divide by 2 - just to balance amplitide of noise with voice source */

@@ -1,0 +1,16 @@
+# name samples fnv1a64 -- written by test_api --update
+hello 25857 d5b2694dc40ea4e8
+sentence 87074 77d604aff55ba091
+question 76245 07d8920fd97699e1
+british 64974 9c181331fdc26efd
+rules 56576 74b0767d83f3ecfd
+numbers 367965 ff47a275e6407ca5
+spell 57239 7466faf3c998c7ff
+accents 47294 8705b2bca66f7263
+unknown 53924 a3c980eba09a9bd2
+rate8k 28320 51dd1119ba629319
+rate11k 36520 aa4004a2d89a3377
+fast 28512 5e83445e31ebff4f
+pitch 23205 990278f8fe69e1a2
+monotone 55250 5eaaa7cf95f141f6
+phones 21437 c81850d51538ab05

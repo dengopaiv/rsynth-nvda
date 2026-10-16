@@ -88,12 +88,14 @@ unsigned
 spell_out(char *word, int n, darray_ptr phone)
 {
     unsigned nph = 0;
-#ifndef DEBUG
+#if !defined(DEBUG) && !defined(RSYNTH_LIBRARY)	/* rsynth-nvda P4 */
     fprintf(stderr, "Spelling '%.*s'\n", n, word);
 #endif				/* DEBUG */
     while (n-- > 0) {
 	char *spellword = lang->char_name[deaccent(*word++) & 0x7F];
+#ifndef RSYNTH_LIBRARY	/* rsynth-nvda P4 */
 	fprintf(stderr, " %s\n", spellword);
+#endif
 	nph += NRL(spellword, strlen(spellword), phone);
 	darray_append(phone, ' ');
 	nph += 1;
@@ -175,7 +177,7 @@ xlate_word(char *word, int n, darray_ptr phone, int verbose)
 	    return (nph);
 	}
 	else {
-#ifndef DEBUG
+#if !defined(DEBUG) && !defined(RSYNTH_LIBRARY)	/* rsynth-nvda P4 */
 	    if (have_dict || verbose)
 		fprintf(stderr, "Guess '%.*s'\n", n, word);
 #endif
@@ -203,7 +205,7 @@ _xlate_string(rsynth_t * rsynth, char *string, darray_ptr phone)
     int ch;
     while (isspace(ch = *s))
 	s++;
-    while ((ch = *s)) {
+    while ((ch = *s) && !(rsynth && (rsynth->flags & RSYNTH_STOP))) {	/* rsynth-nvda P3 */
 	unsigned char *word = s;
 	if (isalpha(ch)) {
 	    while (isalpha(ch = *s)

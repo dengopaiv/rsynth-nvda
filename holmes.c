@@ -124,11 +124,16 @@ interpolate(char *w, char *p, slope_t * s, slope_t * e, float mid, long t,
     }
 }
 
+#ifdef RSYNTH_LIBRARY
+/* rsynth-nvda P2: a library has no business writing to stdout. */
+#define CHECK_SPACING(a,b) do { } while (0)
+#else
 #define CHECK_SPACING(a,b)                                \
   do {                                                    \
       if (a < b + 200)                                    \
        fprintf(stdout,"%s=%g < %s=%g+200\n",#a,a,#b,b); \
      } while (0)
+#endif
 
 
 unsigned
@@ -143,7 +148,7 @@ rsynth_interpolate(rsynth_t * rsynth,
     unsigned tf0 = 0;
     unsigned ntf0 = 0;
     unsigned samp = 0;
-    float contour[3];
+    float contour[3] = { 0, 0, 0 };	/* rsynth-nvda P1: f0[1] is summed into below */
     float f0s = rsynth->speaker->F0Hz;
     float f0e = f0s;
     int j;
@@ -192,7 +197,7 @@ rsynth_interpolate(rsynth_t * rsynth,
 	flt[j].a = rsynth->smooth;
 	flt[j].b = 1.0F - rsynth->smooth;
     }
-    while (i < nelm) {
+    while (i < nelm && !(rsynth->flags & RSYNTH_STOP)) {	/* rsynth-nvda P3 */
 	Elm_ptr ce = &Elements[elm[i++]];
 	unsigned dur = elm[i++];
 	if (rsynth->flags & RSYNTH_ETRACE) {

@@ -124,6 +124,8 @@ struct rsynth_s
 #define RSYNTH_ETRACE    (1L << 1)
 #define RSYNTH_MONOTONE  (1L << 2)
 #define RSYNTH_F0TRACE   (1L << 3)
+/* rsynth-nvda P3: set by a host to abandon the text being spoken. */
+#define RSYNTH_STOP      (1L << 4)
 
 extern speaker_t *rsynth_speaker(float F0Hz, float gain, Elm_t *elements);
 

@@ -30,3 +30,18 @@ Rsynth/librsynth.a
 say
 dlookup
 mkdictdb
+
+# --- rsynth-nvda (CMake build and NVDA add-on) ---
+# The library build's own config.h is source, not configure output.
+!port/config.h
+/build/
+/nvda-addon/*.nvda-addon
+/nvda-addon/addon/synthDrivers/rsynth.dll
+__pycache__/
+*.wav
+
+# Left on disk by the Python port (branch python-port); not part of this build.
+/_rsynth/
+/dist/
+/RSynthGUI.spec
+/rsynth 4.nvda-addon
