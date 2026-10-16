@@ -42,10 +42,14 @@ is the C distribution with the autotools build. That restore is commit
 20f8c28 -- '*.c' '*.h' '*.def'` is empty. Every later change to those files
 is a patch listed in [02-library-build.md](02-library-build.md).
 
-Files the Python port left on disk (`_rsynth/` with a built `.pyd`,
-`dist/`, `RSynthGUI.spec`, an old `rsynth 4.nvda-addon`) were never tracked
-and were not deleted; `.gitignore` names them so they cannot be committed
-by accident from this branch.
+The Python port also left untracked build output on disk: `_rsynth/` with
+a built `.pyd`, `build/` and `dist/` (a PyInstaller GUI build and add-on
+1.0.1), `RSynthGUI.spec` and an old `rsynth 4.nvda-addon`. All of it was
+generated, and can be generated again from the `python-port` branch. It
+was deleted on 2026-10-16 at the user's request, so the only add-on left
+in the folder is the current `nvda-addon/rsynth-<version>.nvda-addon`.
+`.gitignore` still names those paths, in case checking out `python-port`
+and building there brings them back.
 
 ## Where the C came from
 
