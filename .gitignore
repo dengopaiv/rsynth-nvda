@@ -39,9 +39,12 @@ mkdictdb
 /nvda-addon/addon/synthDrivers/rsynth.dll
 __pycache__/
 *.wav
+# The latest GUI build, kept for use (docs/07); built, so not committed.
+/dist/
+# Voice files saved while trying the GUI out.
+*.rsv
 
 # Left on disk by the Python port (branch python-port); not part of this build.
 /_rsynth/
-/dist/
 /RSynthGUI.spec
 /rsynth 4.nvda-addon

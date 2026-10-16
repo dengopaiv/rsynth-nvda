@@ -11,7 +11,8 @@
        character spelt, none of which may crash (charset.c's deaccent()
        aborts on unknown high bytes; the front end must keep them out).
     3. Behaviour: a callback that cancels stops delivery; speaking the same
-       text twice gives the same samples.
+       text twice gives the same samples; the speaker parameters start at
+       the original constants, clamp, and restore the output when put back.
     4. Golden: a fixed corpus, each item's sample count and FNV-1a hash
        compared with golden.txt. These were recorded from this library and
        pin its output: any change to synthesis shows up here, and must be
@@ -212,6 +213,63 @@ test_behaviour(rs_engine *e)
           a.samples);
 }
 
+/* Speaker parameters: the defaults are elements.c's rsynth_speaker()
+   constants, values are clamped, and changing one changes the sound while
+   putting it back restores the exact output. */
+static void
+test_speaker(rs_engine *e)
+{
+    /* FNPhz is the nasal zero of element 0 in Elements.def. */
+    static const double want[RS_SPK_COUNT] = {
+        3900, 400, 4700, 150, 4900, 500, 600, 800, 0 /* see below */, 500
+    };
+    sink_t a, b;
+    double lo, hi;
+    int i;
+
+    for (i = 0; i < RS_SPK_COUNT; i++) {
+        double v = rs_get_speaker(e, i);
+        CHECK(rs_speaker_range(i, &lo, &hi) == 0 && lo < hi,
+              "speaker range %d", i);
+        CHECK(v >= lo && v <= hi, "speaker default %d = %g outside %g..%g",
+              i, v, lo, hi);
+        if (i != RS_SPK_FNP)
+            CHECK(v == want[i], "speaker default %d = %g, want %g", i, v,
+                  want[i]);
+    }
+    CHECK(rs_get_speaker(e, RS_SPK_COUNT) < 0, "unknown speaker param read");
+    CHECK(rs_get_speaker(NULL, 0) < 0, "NULL engine read");
+    CHECK(rs_speaker_range(-1, &lo, &hi) < 0, "unknown speaker range");
+    rs_set_speaker(e, RS_SPK_COUNT, 1000);   /* ignored, must not crash */
+    rs_set_speaker(NULL, 0, 1000);
+
+    rs_set_speaker(e, RS_SPK_F4, 99999);
+    CHECK(rs_get_speaker(e, RS_SPK_F4) == 4999, "F4 not clamped high");
+    rs_set_speaker(e, RS_SPK_F4, -5);
+    CHECK(rs_get_speaker(e, RS_SPK_F4) == 1200, "F4 not clamped low");
+    rs_set_speaker(e, RS_SPK_F4, 3900);
+
+    sink_init(&a);
+    rs_speak(e, long_text, 0, on_audio, &a);
+    rs_set_speaker(e, RS_SPK_B4, 900);
+    rs_set_speaker(e, RS_SPK_FNP, 400);
+    sink_init(&b);
+    rs_speak(e, long_text, 0, on_audio, &b);
+    CHECK(b.samples == a.samples && b.hash != a.hash,
+          "speaker change: %u/%u samples, hash %s", b.samples, a.samples,
+          b.hash == a.hash ? "unchanged" : "changed");
+    {
+        rs_engine *fresh = rs_create(22050);
+        rs_set_speaker(e, RS_SPK_B4, 400);
+        rs_set_speaker(e, RS_SPK_FNP, rs_get_speaker(fresh, RS_SPK_FNP));
+        rs_destroy(fresh);
+    }
+    sink_init(&b);
+    rs_speak(e, long_text, 0, on_audio, &b);
+    CHECK(b.samples == a.samples && b.hash == a.hash,
+          "restoring the speaker defaults did not restore the output");
+}
+
 /* --- 4. golden ---------------------------------------------------------- */
 
 typedef struct {
@@ -356,6 +414,7 @@ main(int argc, char **argv)
         test_frontend(e);
         test_bytes(e);
         test_behaviour(e);
+        test_speaker(e);
     }
     rs_destroy(e);
     test_golden(argv[1], update);

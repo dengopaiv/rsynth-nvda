@@ -81,10 +81,34 @@ if(NOT MSVC)
   set_target_properties(rsynth PROPERTIES C_VISIBILITY_PRESET hidden)
 endif()
 
+# The same sources as a static library, for programs that link the engine
+# in rather than load it (the GUI, so that it is one exe). Same flags, so
+# the same output: tests/ runs the golden check against both.
+add_library(rsynth_static STATIC
+  ${RSYNTH_ENGINE_SOURCES}
+  port/rsynth_api.c
+  port/frontend.c
+  port/dict_builtin.c
+  "${RSYNTH_DICT_C}")
+target_include_directories(rsynth_static
+  PRIVATE port ${CMAKE_CURRENT_SOURCE_DIR}
+  PUBLIC  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
+target_compile_definitions(rsynth_static PUBLIC RSYNTH_STATIC)
+if(NOT MSVC)
+  target_link_libraries(rsynth_static PUBLIC m)
+endif()
+
 # ---------------------------------------------------------------------------
 # rsynth_say: text in, WAV out, over the public API only.
 add_executable(rsynth_say cli/rsynth_say.c)
 target_link_libraries(rsynth_say PRIVATE rsynth)
+
+# ---------------------------------------------------------------------------
+# rsynth_gui: the desktop GUI, C++ over plain Win32 controls (docs/07).
+# Windows only; the engine and everything above build anywhere.
+if(WIN32)
+  add_subdirectory(gui)
+endif()
 
 # ---------------------------------------------------------------------------
 enable_testing()

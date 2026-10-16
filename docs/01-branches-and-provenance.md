@@ -20,7 +20,7 @@ Python is the driver NVDA requires.
 
 | Branch | Points at | Holds |
 |---|---|---|
-| `python-port` | `1bb9e46` | The Python port exactly as it was: engine, C extension, GUI, add-on 2.0.0, build scripts. Created from `master` before anything moved. Nothing on it was changed. |
+| `python-port` | `1bb9e46` | The Python port exactly as it was: engine, C extension, the wxPython GUI (`rsynth_gui.py`, packaged by `build_exe.py`), add-on 2.0.0, build scripts. Created from `master` before anything moved. Nothing on it was changed. The GUI's native replacement on `master` is [07](07-gui.md). |
 | `native` | — | The work described in these documents. Merged into `master`. |
 | `master` | — | The native build. |
 | `main` (local) | `1122a51` | A merge of `master` with GitHub's "Initial commit" (`5652164`). Left untouched. |
@@ -49,7 +49,8 @@ generated, and can be generated again from the `python-port` branch. It
 was deleted on 2026-10-16 at the user's request, so the only add-on left
 in the folder is the current `nvda-addon/rsynth-<version>.nvda-addon`.
 `.gitignore` still names those paths, in case checking out `python-port`
-and building there brings them back.
+and building there brings them back. Since the native GUI ([07](07-gui.md)),
+`dist/` is used again, for its latest build, `dist/rsynth_gui.exe`.
 
 ## Where the C came from
 

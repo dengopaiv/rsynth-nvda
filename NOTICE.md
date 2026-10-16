@@ -94,14 +94,16 @@ of NVDA's code.
 
 ## This project's own contribution
 
-`port/`, `include/`, `cli/`, `tests/`, `tools/mkdicttab.c` (which is
-mkdictdb.c's parser with the database replaced, and stays GPL like it),
-`nvda-addon/` and `docs/`. The library-side files are offered under the
-LGPL v2 or later like the engine they wrap; `cli/rsynth_say.c` under the
-GPL v2 or later like the `say` it replaces.
+`port/`, `include/`, `cli/`, `gui/`, `tests/`, `tools/mkdicttab.c` (which
+is mkdictdb.c's parser with the database replaced, and stays GPL like it),
+`nvda-addon/` and `docs/`. The library-side files and the GUI are offered
+under the LGPL v2 or later like the engine they wrap; `cli/rsynth_say.c`
+under the GPL v2 or later like the `say` it replaces. `rsynth_gui.exe`
+links the engine and the compiled CMU dictionary in, so it carries both
+sets of terms above; its About box names them.
 
 The LGPL requires that users can get the library's source: it is this
 repository, <https://github.com/dengopaiv/rsynth-nvda>.
 
-The earlier pure-Python port lives on the branch `python-port` and is not
-part of this build.
+The earlier pure-Python port, with its wxPython GUI, lives on the branch
+`python-port` and is not part of this build.

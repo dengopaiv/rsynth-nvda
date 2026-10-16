@@ -22,6 +22,7 @@
 */
 #include "config.h"
 #include <ctype.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -73,6 +74,7 @@ struct rs_engine {
     int lexicon;
     double f0;
     double gain;
+    double spk[RS_SPK_COUNT];   /* rs_set_speaker values, copied in begin() */
     speaker_t speaker;      /* this engine's own copy; see rs_create */
 
     /* Per call. */
@@ -83,6 +85,26 @@ struct rs_engine {
     int16_t block[BLOCK];
     int nblock;
 };
+
+/* The speaker_t field behind each rs_speaker_param, and the range
+   rsynth.h's comments give for it. */
+static const struct {
+    size_t offset;
+    double lo, hi;
+} spk_field[RS_SPK_COUNT] = {
+    { offsetof(speaker_t, F4hz), 1200, 4999 },
+    { offsetof(speaker_t, B4hz), 40, 1000 },
+    { offsetof(speaker_t, F5hz), 1200, 4999 },
+    { offsetof(speaker_t, B5hz), 40, 1000 },
+    { offsetof(speaker_t, F6hz), 1200, 4999 },
+    { offsetof(speaker_t, B4phz), 40, 1000 },
+    { offsetof(speaker_t, B5phz), 40, 1000 },
+    { offsetof(speaker_t, B6phz), 40, 2000 },
+    { offsetof(speaker_t, FNPhz), 248, 528 },
+    { offsetof(speaker_t, BNhz), 40, 1000 },
+};
+
+#define SPK_FIELD(sp, i) (*(float *) ((char *) (sp) + spk_field[i].offset))
 
 /* --- sample path -------------------------------------------------------- */
 
@@ -192,6 +214,11 @@ begin(rs_engine *e, rs_audio_fn fn, void *user)
     e->rs->smooth = (float) e->smooth;
     e->speaker.F0Hz = (float) e->f0;
     e->speaker.Gain0 = (float) e->gain;
+    {
+        int i;
+        for (i = 0; i < RS_SPK_COUNT; i++)
+            SPK_FIELD(&e->speaker, i) = (float) e->spk[i];
+    }
     if (e->monotone)
         e->rs->flags |= RSYNTH_MONOTONE;
     e->fn = fn;
@@ -248,6 +275,11 @@ rs_create(int sample_rate)
     e->speaker = *rsynth_speaker((float) DEFAULT_F0, (float) DEFAULT_GAIN,
                                  Elements);
     UNLOCK();
+    {
+        int i;
+        for (i = 0; i < RS_SPK_COUNT; i++)
+            e->spk[i] = SPK_FIELD(&e->speaker, i);
+    }
     return e;
 }
 
@@ -339,6 +371,34 @@ rs_set_lexicon(rs_engine *e, int lexicon)
 {
     if (e && lexicon >= RS_LEX_CMU_AMERICAN && lexicon <= RS_LEX_RULES)
         e->lexicon = lexicon;
+}
+
+RSYNTH_EXPORT void
+rs_set_speaker(rs_engine *e, int param, double value)
+{
+    if (e && param >= 0 && param < RS_SPK_COUNT)
+        e->spk[param] = clampd(value, spk_field[param].lo,
+                               spk_field[param].hi);
+}
+
+RSYNTH_EXPORT double
+rs_get_speaker(const rs_engine *e, int param)
+{
+    if (!e || param < 0 || param >= RS_SPK_COUNT)
+        return -1.0;
+    return e->spk[param];
+}
+
+RSYNTH_EXPORT int
+rs_speaker_range(int param, double *lo, double *hi)
+{
+    if (param < 0 || param >= RS_SPK_COUNT)
+        return -1;
+    if (lo)
+        *lo = spk_field[param].lo;
+    if (hi)
+        *hi = spk_field[param].hi;
+    return 0;
 }
 
 /* Spelling: say.c's spell_out() names one character at a time from the

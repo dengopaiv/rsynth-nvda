@@ -27,6 +27,17 @@ them. So verification has two parts:
 | `tests/test_driver.py` against the MSVC DLL | Windows, Python 3.13.15 | all passed |
 | The add-on inside NVDA 2026.3beta5, `tests/nvda_test` harness | Windows, throwaway profile | every step ran, 0 errors; see [05](05-nvda-driver.md) |
 
+Later the same day, for the GUI ([07](07-gui.md)), the speaker parameters
+were added to the API and the engine was also built as a static library:
+
+| Build | Where | Result |
+|---|---|---|
+| MSVC 14.51, x64, Release: `api` (DLL) and `api_static` (static library) | Windows, `build/msvc` | both passed, **golden hashes unchanged** |
+| gcc 14.2, Release, both tests | WSL Debian 13, `/tmp` | both passed, same hashes |
+| gcc 14.2, ASan + UBSan, both tests | WSL | both passed, clean |
+| `tests/test_driver.py` against the new DLL | Windows | all passed |
+| `tests/gui_check.py` against `rsynth_gui.exe` | Windows, private desktop | 93 checks, 0 failed; [measurements/gui-check-2026-10-16.txt](measurements/gui-check-2026-10-16.txt) |
+
 That the golden hashes agree between MSVC on Windows and gcc on Linux, at
 -O0 and -O2, says the engine's float arithmetic is reproducible across
 these compilers (both use SSE2 scalar floats on x86-64, and the library
@@ -72,4 +83,7 @@ samples, 46 ms at 22 kHz) is.
   prove it is stable, not that it sounds like `say` did; a listening
   comparison with an autotools `say` built in WSL from the same sources
   would settle that, and is the natural next check.
+- **The GUI with NVDA, by a person.** Its MSAA names, groups and Tab
+  order are checked by script ([07](07-gui.md)); nobody has used it with
+  NVDA speaking yet.
 - ARM64 Windows: the build allows it; nothing has been built or run there.

@@ -31,7 +31,10 @@
 extern "C" {
 #endif
 
-#if defined(_WIN32)
+#if defined(RSYNTH_STATIC)
+   /* Linked in as a static library (the GUI does this). */
+#  define RSYNTH_EXPORT
+#elif defined(_WIN32)
 #  if defined(RSYNTH_BUILDING_DLL)
 #    define RSYNTH_EXPORT __declspec(dllexport)
 #  else
@@ -90,6 +93,39 @@ RSYNTH_EXPORT void rs_set_smooth(rs_engine *e, double frac);
 /* Hold F0 flat (original -M). */
 RSYNTH_EXPORT void rs_set_monotone(rs_engine *e, int on);
 RSYNTH_EXPORT void rs_set_lexicon(rs_engine *e, int lexicon);
+
+/* Speaker characteristics: the "quasi fixed" fields of speaker_t
+   (rsynth.h), which elements.c's rsynth_speaker() fills with constants and
+   every element shares. These are what make the voice a different speaker
+   without touching the element table. Added after RS_API_VERSION 1 shipped
+   in add-on 3.0.0; additions do not bump the version, so a host loading
+   the library at run time should look these up by name.
+
+   speaker_t also has B6hz, which nothing in the engine reads (opsynth.c
+   uses only the parallel B6phz for F6), so it is not offered. */
+enum rs_speaker_param {
+    RS_SPK_F4 = 0,  /* F4 frequency, Hz, cascade and parallel  1200..4999 */
+    RS_SPK_B4,      /* F4 bandwidth, cascade, Hz                 40..1000 */
+    RS_SPK_F5,      /* F5 frequency, Hz, cascade (above 8 kHz
+                       sampling only) and parallel             1200..4999 */
+    RS_SPK_B5,      /* F5 bandwidth, cascade, Hz                 40..1000 */
+    RS_SPK_F6,      /* F6 frequency, Hz, parallel only         1200..4999 */
+    RS_SPK_B4P,     /* F4 bandwidth, parallel, Hz                40..1000 */
+    RS_SPK_B5P,     /* F5 bandwidth, parallel, Hz                40..1000 */
+    RS_SPK_B6P,     /* F6 bandwidth, parallel, Hz                40..2000 */
+    RS_SPK_FNP,     /* nasal pole frequency, Hz                   248..528 */
+    RS_SPK_BN,      /* nasal pole and zero bandwidth, Hz         40..1000 */
+    RS_SPK_COUNT
+};
+/* Like the other setters: a plain store, clamped to the range, read when
+   the next rs_speak* starts. An unknown `param` is ignored. */
+RSYNTH_EXPORT void rs_set_speaker(rs_engine *e, int param, double value);
+/* The current value; a fresh engine reports the original defaults.
+   Returns a negative number for an unknown `param` or a NULL engine. */
+RSYNTH_EXPORT double rs_get_speaker(const rs_engine *e, int param);
+/* The range rs_set_speaker clamps to (the ranges rsynth.h documents).
+   Returns 0, or -1 for an unknown `param`. */
+RSYNTH_EXPORT int rs_speaker_range(int param, double *lo, double *hi);
 
 /* Speak UTF-8 text. Returns 0 when finished, 1 when the callback cancelled,
    negative on a bad argument or out of memory. */
